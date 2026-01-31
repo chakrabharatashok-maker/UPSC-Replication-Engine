@@ -21,25 +21,23 @@ def get_available_models(api_key):
         for m in genai.list_models():
             if 'generateContent' in m.supported_generation_methods:
                 if 'gemini' in m.name.lower():
-                    # FILTER: Strict JSON Support Check
-                    # Exclude 1.0, gemini-pro (legacy), and any experimental that isn't explicitly newer
-                    # Keep if: "1.5", "2.0", "flash", "latest" are present
+                    # FILTER: Strict JSON Support & Legacy Check
+                    # User Request: Remove 1.5, remove 1.0. Keep only what works (latest aliases + 2.0)
                     n = m.name.lower()
                     if "1.0" in n: continue
-                    if n == "models/gemini-pro": continue # Legacy 1.0 Pro
+                    if "1.5" in n: continue # User requested removal
+                    if "experimental" in n: continue 
+                    if n == "models/gemini-pro": continue 
                     
                     models.append(m.name)
         
-        # Reliability Sort: 1.5 Flash (Most Reliable) > 2.0 Flash (Newer) > Pro > Experimental
+        # Reliability Sort: Flash Latest (Alias) > 2.0 Flash
         def model_sorter(name):
             val = 0
             n = name.lower()
-            if "1.5" in n and "flash" in n: val += 120 # Gold Standard for Free Tier
-            elif "2.0" in n and "flash" in n: val += 110 # Silver
-            elif "flash" in n: val += 100 # Bronze
-            elif "1.5" in n and "pro" in n: val += 50
-            elif "pro" in n: val += 40
-            if "latest" in n: val += 5
+            if "flash" in n and "latest" in n: val += 150 # Absolute Top Priority
+            elif "2.0" in n and "flash" in n: val += 120 
+            elif "pro" in n and "latest" in n: val += 80 
             return val
 
         models.sort(key=model_sorter, reverse=True)
@@ -461,11 +459,9 @@ with st.sidebar.expander("⚙️ Advanced Config"):
     
     # 2. Fallback if fetch fails or returns empty
     default_models = [
-        "gemini-1.5-flash",      # Most Reliable Free Tier
-        "gemini-2.0-flash",      # Powerful & fast
-        "gemini-flash-latest",   # Alias
-        "gemini-1.5-pro",        # High IQ (Low Rate Limit)
-        # removed gemini-pro-latest as it can map to 1.0 sometimes
+        "gemini-flash-latest",   # The "Works" Alias
+        "gemini-2.0-flash",      # Modern
+        "gemini-pro-latest"      # Pro Alias
     ]
     
     # Combined: fetched first, then unique defaults
@@ -473,7 +469,7 @@ with st.sidebar.expander("⚙️ Advanced Config"):
         # Use set logic to avoid dupes but keep order? No, simpler:
         final_list = fetched_models
         # Add aliases manually if not present, as API usually returns specific versions
-        if "gemini-1.5-flash" not in final_list: final_list.insert(0, "gemini-1.5-flash")
+        if "gemini-flash-latest" not in final_list: final_list.insert(0, "gemini-flash-latest")
     else:
         final_list = default_models
 
