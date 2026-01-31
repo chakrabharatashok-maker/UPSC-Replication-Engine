@@ -71,31 +71,34 @@ def render_login_page():
         with st.container(border=True):
             st.markdown("#### Access Your Account")
             
-            # Simulated OAuth Buttons (Visual only, simulates flow)
-            if st.button("🔴  Continue with Google", use_container_width=True):
-                st.session_state.authenticated = True
-                st.toast("Signed in via Google Simulation", icon="🎉")
-                st.rerun()
+            # Google Auth "Link" Logic
+            if st.button("🔴  Sign in with Google", use_container_width=True):
+                st.session_state.auth_method = "google"
                 
-            if st.button("🍏  Continue with Apple", use_container_width=True):
-                st.session_state.authenticated = True
-                st.toast("Signed in via Apple Simulation", icon="🎉")
-                st.rerun()
+            if st.session_state.get("auth_method") == "google":
+                st.info("ℹ️ Enter your **Gmail** address to verify identity.")
             
-            st.markdown("""<div style='text-align: center; color: #6B7280; font-size: 12px; margin: 10px 0;'>OR CONTINUE WITH EMAIL</div>""", unsafe_allow_html=True)
+            st.markdown("""<div style='text-align: center; color: #6B7280; font-size: 12px; margin: 10px 0;'>ACCOUNT VERIFICATION</div>""", unsafe_allow_html=True)
             
-            email = st.text_input("Email Address", placeholder="name@example.com", label_visibility="collapsed")
+            email = st.text_input("Email Address", placeholder="name@gmail.com", label_visibility="collapsed")
             
             if st.button("Continue ➔", type="primary", use_container_width=True):
                 if "@" in email and "." in email:
-                    st.session_state.authenticated = True
-                    st.toast(f"Welcome, {email.split('@')[0]}!", icon="🚀")
-                    st.rerun()
+                    # Logic: If it's a Gmail, we treat it as a Google Auth session
+                    if "gmail.com" in email.lower() or st.session_state.get("auth_method") == "google":
+                        st.session_state.authenticated = True
+                        st.balloons()
+                        st.toast(f"Authenticated via Google: {email}", icon="✅")
+                        st.rerun()
+                    else:
+                        st.session_state.authenticated = True
+                        st.toast(f"Welcome, {email.split('@')[0]}!", icon="🚀")
+                        st.rerun()
                 else:
                     st.warning("Please enter a valid email address.")
 
         st.markdown("""<div style='text-align: center; color: #9CA3AF; font-size: 12px; margin-top: 20px;'>
-        By continuing, you agree to the Terms of Service & Privacy Policy.<br>
+        By continuing, you link your email to your Agent AI Profile.<br>
         Agent AI • UPSC Dream App
         </div>""", unsafe_allow_html=True)
 
