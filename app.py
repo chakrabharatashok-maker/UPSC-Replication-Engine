@@ -53,6 +53,56 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
+# -- Authentication Logic (Premium Gate) --
+if "authenticated" not in st.session_state:
+    st.session_state.authenticated = False
+
+def render_login_page():
+    # Centered Layout for Login
+    _, col_login, _ = st.columns([1, 1.5, 1])
+    
+    with col_login:
+        st.markdown("")
+        st.markdown("")
+        st.markdown("### 👋 Welcome Aspirant")
+        st.markdown("Sign in to sync your **Mock Tests**, **History**, and **Progress**.")
+        
+        # Stylized Container
+        with st.container(border=True):
+            st.markdown("#### Access Your Account")
+            
+            # Simulated OAuth Buttons (Visual only, simulates flow)
+            if st.button("🔴  Continue with Google", use_container_width=True):
+                st.session_state.authenticated = True
+                st.toast("Signed in via Google Simulation", icon="🎉")
+                st.rerun()
+                
+            if st.button("🍏  Continue with Apple", use_container_width=True):
+                st.session_state.authenticated = True
+                st.toast("Signed in via Apple Simulation", icon="🎉")
+                st.rerun()
+            
+            st.markdown("""<div style='text-align: center; color: #6B7280; font-size: 12px; margin: 10px 0;'>OR CONTINUE WITH EMAIL</div>""", unsafe_allow_html=True)
+            
+            email = st.text_input("Email Address", placeholder="name@example.com", label_visibility="collapsed")
+            
+            if st.button("Continue ➔", type="primary", use_container_width=True):
+                if "@" in email and "." in email:
+                    st.session_state.authenticated = True
+                    st.toast(f"Welcome, {email.split('@')[0]}!", icon="🚀")
+                    st.rerun()
+                else:
+                    st.warning("Please enter a valid email address.")
+
+        st.markdown("""<div style='text-align: center; color: #9CA3AF; font-size: 12px; margin-top: 20px;'>
+        By continuing, you agree to the Terms of Service & Privacy Policy.<br>
+        Agent AI • UPSC Dream App
+        </div>""", unsafe_allow_html=True)
+
+if not st.session_state.authenticated:
+    render_login_page()
+    st.stop() # Halts the rest of the app logic until authenticated
+
 from reportlab.lib import colors
 from reportlab.lib.units import inch
 from reportlab.platypus import Table, TableStyle

@@ -1,5 +1,124 @@
 [
   {
+    "id": "71a1bd15-2002-4e11-bd55-f3fc408c7bae",
+    "timestamp": "2026-01-31 20:26",
+    "topic": "Full Mock Test (10 Qs)",
+    "score": -2.64,
+    "max_score": 20,
+    "questions": [
+      {
+        "question_text": "Consider the following statements regarding the administration and socio-cultural aspects of the Gupta period:\n1. The 'Vishayas' were administrative divisions headed by 'Vishayapatis', who often held multiple portfolios.\n2. The Gupta rulers patronized Sanskrit literature and art, leading to the composition of significant works like the 'Amorous Poems' attributed to Kalidasa.\n3. While Brahmanical influence was dominant, evidence suggests a degree of tolerance towards other religious sects, including Buddhism and Jainism, with royal patronage extended to monasteries and scholars.\n4. The land revenue system saw the introduction of new forms of taxation like 'Uparikara' and 'Hiranyapratyaya', indicating a more formalized and diversified revenue collection mechanism.\nWhich of the above statements is/are correct?",
+        "options": {
+          "A": "1 and 4 only",
+          "B": "2 and 3 only",
+          "C": "1, 3 and 4 only",
+          "D": "1, 2, 3 and 4"
+        },
+        "correct_option": "C",
+        "explanation": "Statement 1 is correct. 'Vishayas' were indeed administrative units below the province (Bhukti), and they were administered by 'Vishayapatis'. These officials often served in multiple capacities. Statement 2 is incorrect. While the Gupta period was a golden age for Sanskrit literature and art, and Kalidasa was a prominent figure, attributing the 'Amorous Poems' (likely referring to erotic poetry) as a primary characteristic or direct attribution to Kalidasa in historical accounts might be an oversimplification or misrepresentation of his known works like Meghaduta, Raghuvamsa, and Shakuntala, which are more known for their poetic and dramatic excellence rather than solely 'amorous' themes in a generalized sense. The primary association of Kalidasa is with profound literary works, not explicitly erotic poetry as a defining feature. Statement 3 is correct. The Guptas, while primarily patrons of Brahmanism, did exhibit tolerance and extended patronage to Buddhist and Jain institutions, reflecting a syncretic religious environment. Statement 4 is correct. The Gupta land revenue system was more organized, and terms like 'Uparikara' (an extra tax, possibly on temporary landholders) and 'Hiranyapratyaya' (a tax paid in gold or other metallic currency) are associated with this period, indicating revenue diversification. Therefore, statements 1, 3, and 4 are correct."
+      },
+      {
+        "question_text": "With reference to the administration of the Vijayanagara Empire, consider the following statements:\n1. The 'Amuktamalyada', a significant literary work, provides insights into the administrative structure and the role of the king as a protector of Dharma.\n2. The empire was divided into provinces called 'Kottams', which were further subdivided into districts known as 'Nadus'.\n3. The 'Rayas' exercised absolute control over the military, and the nobility held lands solely on military tenure, contributing troops to the royal army.\n4. The 'Ayagars' were hereditary village officials who performed various functions, including the collection of taxes and the maintenance of order, receiving service grants in return.\nWhich of the above statements is/are correct?",
+        "options": {
+          "A": "1 and 3 only",
+          "B": "2 and 4 only",
+          "C": "1, 2 and 4 only",
+          "D": "3 and 4 only"
+        },
+        "correct_option": "C",
+        "explanation": "Statement 1 is correct. The 'Amuktamalyada' by Krishnadevaraya himself, though primarily a religious and poetic work, does contain references and allusions to the administrative ideals and the king's role, including the concept of Dharma Rajya. Statement 2 is correct. The Vijayanagara Empire's administrative divisions included provinces known as 'Rajyas' or 'Mandalam', which were then sub-divided into 'Kottams' and further into 'Nadus' or 'Districts'. Statement 3 is incorrect. While the Rayas held significant military power, their control was not always absolute due to the influence of powerful Nayakas (chieftains) who had considerable autonomy and military resources. Lands were not solely held on military tenure; other forms of land grants and ownership existed. Statement 4 is correct. The 'Ayagar' system was a crucial feature of village administration in the Vijayanagara Empire, where hereditary village officers were assigned land and certain rights in lieu of their services, which included tax collection, local policing, and judicial functions. Therefore, statements 1, 2, and 4 are correct."
+      },
+      {
+        "question_text": "Consider the following statements regarding the Vernacular Press Act, 1878:\n1. It empowered the government to confiscate printing presses without trial if they published seditious material.\n2. It applied to all vernacular newspapers and exempted English newspapers.\n3. Lord Lytton argued that the Act was necessary to curb the spread of disaffection among the Indian masses.\n4. The Act was repealed by Lord Ripon in 1882.\nWhich of the above statements is/are correct?",
+        "options": {
+          "A": "1, 2 and 3 only",
+          "B": "1 and 4 only",
+          "C": "2, 3 and 4 only",
+          "D": "1, 2, 3 and 4"
+        },
+        "correct_option": "D",
+        "explanation": "Statement 1 is correct: The Vernacular Press Act, 1878, indeed empowered the government to take action against newspapers, including confiscation of printing presses, for publishing objectionable material without recourse to a magistrate. Statement 2 is correct: A key discriminatory feature of the Act was that it applied only to newspapers published in Indian languages (vernaculars) and explicitly exempted newspapers published in foreign languages, particularly English. Statement 3 is correct: Lord Lytton, the Viceroy at the time, justified the Act by stating it was essential to counter the 'seditious' and 'disloyal' content in vernacular newspapers that he believed were fanning anti-British sentiment. Statement 4 is correct: The harsh and discriminatory nature of the Act led to widespread criticism, and Lord Ripon, Lytton's successor, repealed it in 1882 as part of his liberal reform agenda. Therefore, all statements are correct."
+      },
+      {
+        "question_text": "With reference to the economic policies of the British in India, consider the following statements:\n1. The Drain of Wealth theory, articulated by Dadabhai Naoroji, primarily focused on the systematic transfer of Indian capital to Britain through various 'un-British' means.\n2. The Permanent Settlement of Bengal, while intended to increase land revenue, inadvertently led to the emergence of a class of absentee landlords and peasant indebtedness.\n3. The introduction of railways, while facilitating trade and communication, primarily served the strategic and economic interests of Britain by enabling the transport of raw materials to ports and troops to quell unrest.\n4. The policy of Deindustrialisation led to the decline of traditional Indian handicrafts and the rise of modern factory production concentrated in Indian hands.\nWhich of the above statements is/are correct?",
+        "options": {
+          "A": "1, 2 and 3 only",
+          "B": "1 and 4 only",
+          "C": "2, 3 and 4 only",
+          "D": "1, 2, 3 and 4"
+        },
+        "correct_option": "A",
+        "explanation": "Statement 1 is correct: Dadabhai Naoroji's Drain Theory highlighted how India's wealth was being systematically extracted by Britain through 'home charges,' salaries, profits, etc., impoverishing India. Statement 2 is correct: The Permanent Settlement created zamindars who often became absentee landlords, extracting rent from peasants without investing in land improvement, leading to peasant distress and debt. Statement 3 is correct: Railways were built primarily to exploit India's resources (raw materials to ports) and maintain British control (troop movement), benefiting Britain's industrial needs and administrative control. Statement 4 is incorrect: While deindustrialisation did occur, leading to the decline of Indian handicrafts due to competition from British manufactured goods, the rise of modern factory production was initially limited and did not primarily benefit Indian entrepreneurs, rather it was part of the colonial economic structure. Therefore, statements 1, 2, and 3 are correct."
+      },
+      {
+        "question_text": "Consider the following statements regarding the powers and functions of the Attorney General of India (AGI):\n1. The AGI has the right to speak and to take part in the proceedings of the Parliament, but without the right to vote.\n2. The AGI can be removed from office by impeachment in a manner similar to that of a Supreme Court judge.\n3. The AGI has the right to appear before any court in India in the discharge of his official duties.\n4. The AGI is debarred from private legal practice while holding office, as per the Constitution.\n\nWhich of the statements given above is/are correct?",
+        "options": {
+          "A": "1 and 3 only",
+          "B": "2 and 4 only",
+          "C": "1, 3 and 4 only",
+          "D": "1, 2, 3 and 4"
+        },
+        "correct_option": "A",
+        "explanation": "Statement 1 is correct. Article 88 of the Constitution states that the Attorney General shall have the right to speak and to take part in the proceedings of either House of Parliament, or any joint sitting thereof, and any committee of Parliament of which he may be named a member, but without the right to vote. Statement 3 is correct. While the Constitution does not explicitly grant this right, it is generally understood that the AGI can represent the government in any court in India. Statement 4 is incorrect. The Constitution does not explicitly debar the AGI from private practice. However, the government often sets guidelines or expects the AGI to limit private practice to avoid conflicts of interest. Statement 2 is incorrect. The Attorney General holds office during the pleasure of the President and is not subject to the impeachment process like a Supreme Court judge. The President can remove the AGI at any time. This question tests the understanding of specific constitutional provisions and implications regarding the AGI's role, requiring careful differentiation between constitutional mandates and conventions or implied limitations. A well-prepared aspirant would need to recall Article 88 and the conditions for removal of the AGI, as well as understand the scope of their legal representation. The distractors are designed to trap those who equate the AGI's position with judicial or parliamentary appointments requiring impeachment, or who assume absolute restrictions on private practice based on common understanding rather than constitutional text."
+      },
+      {
+        "question_text": "Consider the following statements with reference to India's Balance of Payments:\n\n1. A significant increase in foreign institutional investment (FII) inflows typically leads to a widening of the current account deficit.\n2. External commercial borrowings (ECBs) are accounted for under the capital account and can help finance a current account deficit.\n3. Net invisibles, including remittances from Indians abroad, are a major component of the current account.\n4. A depreciation of the Indian Rupee, all else being equal, tends to improve the trade balance.\n\nWhich of the statements given above are correct?",
+        "options": {
+          "A": "1 and 4 only",
+          "B": "2, 3 and 4 only",
+          "C": "1, 2 and 3 only",
+          "D": "1, 2, 3 and 4"
+        },
+        "correct_option": "B",
+        "explanation": "Statement 1 is incorrect. Foreign Institutional Investment (FII) inflows are part of the capital account. An increase in FII inflows, which represent investment in domestic financial markets, would typically help finance a current account deficit rather than cause it to widen. In fact, substantial capital inflows can sometimes lead to an appreciation of the currency, which would tend to widen the current account deficit by making imports cheaper and exports more expensive. Statement 2 is correct. External Commercial Borrowings (ECBs) are loans raised by Indian entities from foreign sources and are recorded under the capital account. They represent a capital inflow and can be used to finance the country's current account deficit. Statement 3 is correct. Net invisibles include trade in services, income receipts and payments, and transfers. Remittances from non-resident Indians (NRIs) fall under the category of transfers and are a significant positive contributor to India's current account balance. Statement 4 is correct. A depreciation of the Indian Rupee makes Indian exports cheaper for foreign buyers and imports more expensive for domestic consumers. This tends to boost exports and reduce imports, thus improving the trade balance (assuming price elasticity conditions are met)."
+      },
+      {
+        "question_text": "Consider the following statements regarding the process of weathering and its impact on landforms:\n1. Chemical weathering is generally more effective in humid tropical regions due to higher temperatures and moisture.\n2. Physical weathering, particularly frost wedging, plays a significant role in shaping arid and semi-arid landscapes.\n3. Mass wasting is a direct consequence of weathering processes, involving the downslope movement of rock and soil under gravity.\n4. Carbonation, a type of chemical weathering, is most pronounced in areas with limestone bedrock and sufficient rainfall.\n\nWhich of the above statements are correct?",
+        "options": {
+          "A": "1, 2 and 4 only",
+          "B": "1, 3 and 4 only",
+          "C": "2 and 3 only",
+          "D": "1, 2, 3 and 4"
+        },
+        "correct_option": "B",
+        "explanation": "Statement 1 is correct. Chemical weathering involves chemical reactions that break down rocks. Higher temperatures and abundant moisture in humid tropical regions accelerate these reactions, making chemical weathering highly effective. Examples include laterization and lateritic soils.\n\nStatement 2 is incorrect. While frost wedging is a form of physical weathering, it is most effective in regions experiencing frequent freeze-thaw cycles. Arid and semi-arid regions, though they can have temperature fluctuations, typically lack the consistent moisture needed for significant frost wedging compared to mid-latitude or alpine environments. Thermal expansion and contraction (insolation weathering) are more dominant physical weathering processes in arid regions.\n\nStatement 3 is correct. Mass wasting (or mass movement) refers to the downslope movement of regolith and rock under the direct influence of gravity. Weathering weakens the rock and soil material, making it more susceptible to gravitational forces, thus acting as a precursor or facilitator for mass wasting events like landslides and creep.\n\nStatement 4 is correct. Carbonation involves the reaction of carbonic acid (formed when carbon dioxide dissolves in water) with minerals, particularly calcium carbonate in limestone. This process is a primary agent in the formation of karst topography, which is characteristic of limestone areas with sufficient rainfall. \n\nSource: NCERT Class 11 - Fundamentals of Physical Geography, Chapter 6: Weathering; Chapter 7: Landforms and their Evolution."
+      },
+      {
+        "question_text": "Consider the following statements regarding the Intergovernmental Science-Policy Platform on Biodiversity and Ecosystem Services (IPBES):\n1. IPBES functions as a UN treaty body to monitor the implementation of the Convention on Biological Diversity (CBD).\n2. It aims to provide policymakers with scientific assessments on biodiversity and ecosystem services and their policy implications.\n3. Its establishment was primarily driven by a concern that the scientific community's input into policy-making regarding biodiversity was fragmented and insufficient.\n\nWhich of the statements given above is/are correct?",
+        "options": {
+          "A": "1 and 3 only",
+          "B": "2 and 3 only",
+          "C": "1 and 2 only",
+          "D": "1, 2 and 3"
+        },
+        "correct_option": "B",
+        "explanation": "Statement 1 is incorrect. IPBES is not a UN treaty body and does not monitor the implementation of specific treaties like the CBD. It is an independent intergovernmental science-policy platform. Statement 2 is correct. IPBES's mandate is to identify and prioritize knowledge gaps and provide scientific advice to policymakers on issues related to biodiversity and ecosystem services. Statement 3 is correct. A major motivation for IPBES's creation was the perceived lack of a robust, integrated mechanism for scientific input into global biodiversity policy, leading to fragmented and insufficient scientific advice."
+      },
+      {
+        "question_text": "Consider the following statements regarding the James Webb Space Telescope (JWST):\n1. It primarily observes in the infrared spectrum, allowing it to see through dust clouds and study redshifted light from the early universe.\n2. Its primary mirror is composed of hexagonal segments made of beryllium coated with gold, which are optimized for infrared reflection.\n3. JWST's orbit around the Sun at the Earth-Sun L2 Lagrange point provides a stable thermal environment and minimizes interference from Earth's heat and light.\n4. Unlike Hubble, JWST is equipped with active optics that allow for real-time adjustments to its mirror shape, compensating for gravitational stresses.\n\nWhich of the statements given above are correct?",
+        "options": {
+          "A": "1, 2 and 3 only",
+          "B": "1, 3 and 4 only",
+          "C": "2 and 4 only",
+          "D": "1, 2, 3 and 4"
+        },
+        "correct_option": "A",
+        "explanation": "Statement 1 is correct. JWST's infrared capability is its defining feature, enabling it to observe distant and early universe objects whose light has been redshifted into the infrared, and to penetrate dust clouds that obscure visible light.\nStatement 2 is correct. The segmented mirror design, utilizing beryllium coated with gold, is crucial for JWST's infrared observation capabilities and overall lightweight structure.\nStatement 3 is correct. The L2 Lagrange point offers a gravitationally stable location, far from Earth's heat and light, which is essential for JWST's extremely cold operating temperature required for infrared astronomy.\nStatement 4 is incorrect. While JWST has a primary mirror, it is not equipped with active optics for real-time mirror shape adjustments in the same manner as some ground-based telescopes. Its mirror segments are precisely aligned during deployment and are designed to be extremely rigid. Any adjustments are typically for initial alignment rather than continuous real-time compensation for stresses like gravity. Hubble, on the other hand, does not have a segmented mirror and its optics are fixed after launch, though corrective optics were provided to overcome its initial spherical aberration.\nSource: NASA JWST Mission Overview, ESA JWST Fact Sheet."
+      },
+      {
+        "question_text": "Consider the following statements regarding India's recent initiatives in the semiconductor industry:\n1. The India Semiconductor Mission (ISM) aims to establish a semiconductor ecosystem in the country, covering design, fabrication, and assembly.\n2. India has signed 'Critical and Emerging Technology' (iCET) agreements with the United States, which include collaboration on semiconductor supply chains.\n3. The government's Production Linked Incentive (PLI) scheme for semiconductors is restricted to advanced nodes (below 10 nm) to attract cutting-edge manufacturing.\n\nWhich of the statements given above is/are correct?",
+        "options": {
+          "A": "1 and 2 only",
+          "B": "2 and 3 only",
+          "C": "1 and 3 only",
+          "D": "1, 2 and 3"
+        },
+        "correct_option": "A",
+        "explanation": "Statement 1 is correct. The India Semiconductor Mission (ISM) is a comprehensive initiative designed to develop a sustainable semiconductor ecosystem in India, encompassing R&D, design, fabrication, assembly, testing, and packaging. Statement 2 is correct. The 'Initiative on Critical and Emerging Technology' (iCET) between India and the US includes significant provisions for cooperation in semiconductor manufacturing and supply chain resilience. Statement 3 is incorrect. While the PLI scheme aims to attract advanced manufacturing, it is not strictly restricted to nodes below 10 nm. It offers incentives for various types of semiconductor facilities, including those producing mature nodes, to build a broader base. Therefore, only statements 1 and 2 are correct."
+      }
+    ]
+  },
+  {
     "id": "c05e2bf5-31d8-40f7-b698-8fd2a026b0bf",
     "timestamp": "2026-01-31 19:52",
     "topic": "Full Mock Test (0 Qs)",

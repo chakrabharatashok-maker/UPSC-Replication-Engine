@@ -284,9 +284,9 @@ class ExamEngine:
                 if "Rate limit" in response["error"]:
                      return response
             
-            # Rate Limit Safety Valve: Sleep 5s between subjects to stay under 15 RPM
-            # 8 subjects * 5s = 40s total gen time, but safe.
-            time.sleep(5)
+            # Rate Limit Safety Valve: Sleep 1s between subjects
+            # 8 subjects * 1s = 8s total penalty (Much faster)
+            time.sleep(1)
         
         if not all_questions:
             return {"error": "Failed to generate any questions.\nDetails:\n" + "\n".join(errors)}
