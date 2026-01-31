@@ -1,6 +1,7 @@
 import streamlit as st
 import os
 import re
+import google.generativeai as genai
 from engine import ExamEngine
 from librarian import Librarian, LIBRARY_DIR
 from reportlab.lib.pagesizes import letter
@@ -9,6 +10,24 @@ from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from io import BytesIO
 from reportlab.graphics.shapes import Drawing, Rect, Path
 from reportlab.pdfgen import canvas
+
+@st.cache_data(ttl=3600)
+def get_available_models(api_key):
+    """Fetches available Gemini models dynamically from the API."""
+    if not api_key: return []
+    try:
+        genai.configure(api_key=api_key)
+        models = []
+        for m in genai.list_models():
+            if 'generateContent' in m.supported_generation_methods:
+                if 'gemini' in m.name.lower():
+                    models.append(m.name)
+        # Sort to put latest version likely at top (lexicographical usually works for 1.5 vs 1.0 but 2.0 works too)
+        # Detailed sort: Put 2.0 first, then 1.5, then others.
+        models.sort(reverse=True) 
+        return models
+    except Exception:
+        return []
 
 # Page Config
 st.set_page_config(
@@ -418,15 +437,31 @@ if not api_key:
 
 # Advanced Config (Hidden by default)
 with st.sidebar.expander("⚙️ Advanced Config"):
+    
+    # 1. Fetch Dynamic Models
+    fetched_models = get_available_models(api_key)
+    
+    # 2. Fallback if fetch fails or returns empty
+    default_models = [
+        "gemini-flash-latest", 
+        "gemini-2.0-flash", 
+        "gemini-1.5-flash", 
+        "gemini-1.5-pro", 
+        "gemini-pro-latest"
+    ]
+    
+    # Combined: fetched first, then unique defaults
+    if fetched_models:
+        # Use set logic to avoid dupes but keep order? No, simpler:
+        final_list = fetched_models
+        # Add aliases manually if not present, as API usually returns specific versions
+        if "gemini-flash-latest" not in final_list: final_list.insert(0, "gemini-flash-latest")
+    else:
+        final_list = default_models
+
     model_name = st.selectbox(
         "AI Model (Switch if Busy)", 
-        [
-            "gemini-flash-latest", 
-            "gemini-2.0-flash", 
-            "gemini-1.5-flash", 
-            "gemini-1.5-pro", 
-            "gemini-pro-latest"
-        ], 
+        final_list, 
         index=0,
         help="Switch models if you hit a 'Rate Limit' (429) error."
     )
