@@ -1,0 +1,539 @@
+{
+  "files": {
+    "5ca16-polity.pdf": {
+      "hash": "3d77cd22d09537bd25a9c141b73f6afc",
+      "subject": "Indian Polity and Constitution",
+      "chapters": [
+        {
+          "index": 1,
+          "title": "Basic Polity Concept",
+          "topics": [],
+          "page_start": 4,
+          "page_end": 9
+        },
+        {
+          "index": 2,
+          "title": "Evolution of Constitution",
+          "topics": [],
+          "page_start": 10,
+          "page_end": 17
+        },
+        {
+          "index": 3,
+          "title": "Preamble",
+          "topics": [],
+          "page_start": 18,
+          "page_end": 23
+        },
+        {
+          "index": 4,
+          "title": "Union and Its Territory",
+          "topics": [],
+          "page_start": 24,
+          "page_end": 27
+        },
+        {
+          "index": 5,
+          "title": "Citizenship",
+          "topics": [],
+          "page_start": 28,
+          "page_end": 40
+        },
+        {
+          "index": 6,
+          "title": "Fundamental Rights Part 1",
+          "topics": [],
+          "page_start": 41,
+          "page_end": 49
+        },
+        {
+          "index": 7,
+          "title": "Fundamental Rights Part 2",
+          "topics": [],
+          "page_start": 50,
+          "page_end": 57
+        },
+        {
+          "index": 8,
+          "title": "Fundamental Duties",
+          "topics": [],
+          "page_start": 58,
+          "page_end": 59
+        },
+        {
+          "index": 9,
+          "title": "Directive Principles of State Policy",
+          "topics": [],
+          "page_start": 60,
+          "page_end": 62
+        },
+        {
+          "index": 10,
+          "title": "Parliament Part 1",
+          "topics": [],
+          "page_start": 63,
+          "page_end": 71
+        },
+        {
+          "index": 11,
+          "title": "Parliament Part 2",
+          "topics": [],
+          "page_start": 72,
+          "page_end": 84
+        },
+        {
+          "index": 12,
+          "title": "Parliament Part 3",
+          "topics": [],
+          "page_start": 85,
+          "page_end": 91
+        },
+        {
+          "index": 13,
+          "title": "Union Executive Part 1",
+          "topics": [],
+          "page_start": 92,
+          "page_end": 101
+        },
+        {
+          "index": 14,
+          "title": "Union Executive Part 2",
+          "topics": [],
+          "page_start": 102,
+          "page_end": 110
+        },
+        {
+          "index": 15,
+          "title": "Cabinet Committee",
+          "topics": [],
+          "page_start": 111,
+          "page_end": 116
+        },
+        {
+          "index": 16,
+          "title": "State Legislature",
+          "topics": [],
+          "page_start": 117,
+          "page_end": 125
+        },
+        {
+          "index": 17,
+          "title": "State Executive",
+          "topics": [],
+          "page_start": 126,
+          "page_end": 133
+        },
+        {
+          "index": 18,
+          "title": "Centre - State Relations",
+          "topics": [],
+          "page_start": 134,
+          "page_end": 140
+        },
+        {
+          "index": 19,
+          "title": "Inter - State Relations",
+          "topics": [],
+          "page_start": 141,
+          "page_end": 144
+        },
+        {
+          "index": 20,
+          "title": "Emergency Provisions",
+          "topics": [],
+          "page_start": 145,
+          "page_end": 159
+        },
+        {
+          "index": 21,
+          "title": "Union Territories and Special Provisions",
+          "topics": [],
+          "page_start": 160,
+          "page_end": 164
+        },
+        {
+          "index": 22,
+          "title": "Local Self Government",
+          "topics": [],
+          "page_start": 165,
+          "page_end": 180
+        },
+        {
+          "index": 23,
+          "title": "Local Governance - 5th and 6th Schedule",
+          "topics": [],
+          "page_start": 181,
+          "page_end": 186
+        },
+        {
+          "index": 24,
+          "title": "Judiciary Part 1",
+          "topics": [],
+          "page_start": 187,
+          "page_end": 196
+        },
+        {
+          "index": 25,
+          "title": "Judiciary Part 2",
+          "topics": [],
+          "page_start": 197,
+          "page_end": 203
+        },
+        {
+          "index": 26,
+          "title": "Judiciary Part 3",
+          "topics": [],
+          "page_start": 204,
+          "page_end": 215
+        },
+        {
+          "index": 27,
+          "title": "Constitutional Bodies Part 1",
+          "topics": [],
+          "page_start": 216,
+          "page_end": 223
+        },
+        {
+          "index": 28,
+          "title": "Constitutional Bodies Part 2",
+          "topics": [],
+          "page_start": 224,
+          "page_end": 226
+        },
+        {
+          "index": 29,
+          "title": "Non Constitutional Bodies Part 1",
+          "topics": [],
+          "page_start": 227,
+          "page_end": 232
+        },
+        {
+          "index": 30,
+          "title": "Non Constitutional Bodies Part 2",
+          "topics": [],
+          "page_start": 233,
+          "page_end": 242
+        },
+        {
+          "index": 31,
+          "title": "The Electoral Process",
+          "topics": [],
+          "page_start": 243,
+          "page_end": 258
+        },
+        {
+          "index": 32,
+          "title": "Administrative Systems",
+          "topics": [],
+          "page_start": 259,
+          "page_end": 259
+        }
+      ],
+      "path": "library/5ca16-polity.pdf"
+    },
+    "governor.pdf": {
+      "hash": "ea279617c8cc2a9faf328ee04e717e14",
+      "subject": "Indian Polity / Constitutional Law / The Office of Governor",
+      "chapters": [
+        {
+          "index": 1,
+          "title": "Introduction and Constitutional Role of the Governor",
+          "topics": [
+            "Role Comparison with President",
+            "Articles 153 to Article 162",
+            "Governor's Dual Role (Constitutional Head & Union Link)"
+          ],
+          "page_start": 1,
+          "page_end": 1
+        },
+        {
+          "index": 2,
+          "title": "Constitutional Provisions, Eligibility, and Tenure",
+          "topics": [
+            "Article 153 (Governor for each State)",
+            "Articles 157 and 158 (Eligibility Requirements)",
+            "Term of Governor's Office and Termination (Dismissal/Resignation)"
+          ],
+          "page_start": 1,
+          "page_end": 2
+        },
+        {
+          "index": 3,
+          "title": "Historical Background",
+          "topics": [
+            "Government of India Act 1935",
+            "Constituent Assembly Debate (Elected vs. Nominated Governor)"
+          ],
+          "page_start": 2,
+          "page_end": 2
+        },
+        {
+          "index": 4,
+          "title": "Issues Concerning the Office of Governor",
+          "topics": [
+            "Abuse of Position (Agent of Centre)",
+            "Partisan Appointments and Bias",
+            "Misuse of Discretionary Powers (Government Formation)",
+            "Imposition of President\u2019s rule (Article 356) Misuse",
+            "Arbitrary Removal of Governor"
+          ],
+          "page_start": 2,
+          "page_end": 3
+        },
+        {
+          "index": 5,
+          "title": "Recommendations and Key Judicial Verdicts",
+          "topics": [
+            "S.R. Bommai Judgment (1994) and Classification of Constitutional Failure",
+            "Nabam Rebia judgment (2016) (Limits of Discretion)",
+            "Administrative Reforms Commission (1968)",
+            "Rajamannar Committee (1971) (Deletion of Articles 356/357)",
+            "Sarkaria Commission (1988) (Rare Use of Article 356)",
+            "Justice V.Chelliah Commission (2002)",
+            "Punchhi commission (Amendment of Articles 355 & 356)"
+          ],
+          "page_start": 3,
+          "page_end": 4
+        },
+        {
+          "index": 6,
+          "title": "Specific Constitutional Provisions Defined",
+          "topics": [
+            "Article 163 (Discretionary Power)",
+            "Article 256 and 257 (Union Directions to States)",
+            "Article 355 (Duty to Protect States)",
+            "Article 356 (President's Rule)",
+            "Article 357 (Exercise of Legislative Powers under Proclamation)"
+          ],
+          "page_start": 4,
+          "page_end": 4
+        },
+        {
+          "index": 7,
+          "title": "Way Forward and Reforms",
+          "topics": [
+            "Need for a 'Code of Conduct'",
+            "Establishing Fixed Tenure and Appointment Procedure",
+            "Guiding Discretionary Powers by Democratic Conventions",
+            "Extending Bommai Verdict to Invitation Process"
+          ],
+          "page_start": 4,
+          "page_end": 5
+        }
+      ],
+      "path": "library/governor.pdf"
+    },
+    "IPG_const.pdf": {
+      "hash": "b5cd70a902892ed76ca34fbb3bcd4795",
+      "subject": "Indian Polity and Governance",
+      "chapters": [
+        {
+          "index": 1,
+          "title": "Constitutional Development of India",
+          "topics": [
+            "Regulating Act of 1773",
+            "Pitt\u2019s India Act of 1784",
+            "Charter Act of 1813",
+            "Charter Act of 1833",
+            "Charter Act of 1853",
+            "Government of India Act, 1858",
+            "Indian Councils Act, 1861",
+            "Indian Council Act, 1892",
+            "Indian Councils Act, 1909",
+            "Government of India Act, 1919",
+            "August Offer, 1940",
+            "Cripps Mission, 1942",
+            "Shimla Conference, 1945",
+            "Cabinet Mission (1946)",
+            "Government of India Act, 1935",
+            "Mountbatten Plan (3 June, 1947)",
+            "Indian Independence Act, 1947"
+          ],
+          "page_start": 9,
+          "page_end": 14
+        },
+        {
+          "index": 2,
+          "title": "Framing of the Indian Constitution",
+          "topics": [],
+          "page_start": 15,
+          "page_end": 15
+        },
+        {
+          "index": 3,
+          "title": "Features of Indian Constitution",
+          "topics": [
+            "India is an indestructible Union of destructible States.",
+            "National Symbols",
+            "National Emblem",
+            "National Anthem",
+            "National Song",
+            "National Animal",
+            "National Calendar",
+            "National Bird",
+            "National Flower",
+            "National Tree",
+            "National Fruit",
+            "National River",
+            "National Aquatic Animal",
+            "National Currency"
+          ],
+          "page_start": 1,
+          "page_end": 4
+        },
+        {
+          "index": 4,
+          "title": "Preamble",
+          "topics": [
+            "Significant Words of Preamble",
+            "Socialist",
+            "Secular",
+            "Democratic",
+            "Republic",
+            "Liberty",
+            "Equality",
+            "Fraternity"
+          ],
+          "page_start": 1,
+          "page_end": 3
+        },
+        {
+          "index": 5,
+          "title": "Union and its Territories",
+          "topics": [],
+          "page_start": 1,
+          "page_end": 1
+        },
+        {
+          "index": 6,
+          "title": "Citizenship",
+          "topics": [
+            "Article 5",
+            "Article 6",
+            "Article 7",
+            "Article 8",
+            "Article 9",
+            "Article 10",
+            "Article 11",
+            "By Birth",
+            "By Descent",
+            "By Registration",
+            "By Naturalisation",
+            "By Incorporation of Territory"
+          ],
+          "page_start": 1,
+          "page_end": 4
+        },
+        {
+          "index": 7,
+          "title": "Fundamental Rights",
+          "topics": [],
+          "page_start": 1,
+          "page_end": 0
+        },
+        {
+          "index": 8,
+          "title": "Directive Principles of State Policy",
+          "topics": [],
+          "page_start": 1,
+          "page_end": 3
+        },
+        {
+          "index": 9,
+          "title": "Fundamental Duties",
+          "topics": [],
+          "page_start": 4,
+          "page_end": 4
+        },
+        {
+          "index": 10,
+          "title": "Parliament",
+          "topics": [
+            "Powers/Functions of Rajya Sabha",
+            "Question Hour",
+            "Starred Questions",
+            "Unstarred Questions",
+            "Short Notice Questions",
+            "Zero Hour",
+            "Calling Attention Motion",
+            "Censure Motion",
+            "No-confidence Motion",
+            "Confidence Motion",
+            "Adjournment Motion",
+            "Motion of Thanks"
+          ],
+          "page_start": 1,
+          "page_end": 14
+        },
+        {
+          "index": 11,
+          "title": "President and Vice President",
+          "topics": [
+            "Election of the President",
+            "Qualification for Election of President",
+            "Important Facts Related to President",
+            "Vice President",
+            "Qualifications for Vice-President"
+          ],
+          "page_start": 1,
+          "page_end": 10
+        },
+        {
+          "index": 12,
+          "title": "Prime Minister and Union Council of Ministers",
+          "topics": [
+            "Council of Ministers",
+            "Prime Minister\u2019s Office",
+            "Salary and Allowances",
+            "Micellaneous functions of Prime Minister",
+            "Cabinet"
+          ],
+          "page_start": 1,
+          "page_end": 4
+        },
+        {
+          "index": 13,
+          "title": "Governor",
+          "topics": [
+            "Qualifications",
+            "Appointment",
+            "Executive Powers of Governor",
+            "Immunities",
+            "Judicial Powers"
+          ],
+          "page_start": 1,
+          "page_end": 4
+        }
+      ],
+      "path": "library/IPG_const.pdf"
+    },
+    "sample_polity_ncert.pdf": {
+      "hash": "2b05bdb7fb911e9c9d51c29d3c7fee61",
+      "subject": "Political Science / Indian Polity",
+      "chapters": [
+        {
+          "index": 1,
+          "title": "Power Sharing",
+          "topics": [],
+          "page_start": 2,
+          "page_end": 4
+        },
+        {
+          "index": 2,
+          "title": "Federalism",
+          "topics": [],
+          "page_start": 5,
+          "page_end": 9
+        },
+        {
+          "index": 3,
+          "title": "Democracy and Diversity",
+          "topics": [],
+          "page_start": 10,
+          "page_end": 0
+        }
+      ],
+      "path": "library/sample_polity_ncert.pdf"
+    }
+  }
+}
