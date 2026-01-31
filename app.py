@@ -383,11 +383,16 @@ def get_syllabus_progress():
         
     return completed_topics, total_topics
 
+# State Management for Navigation
+if "navigation" not in st.session_state:
+    st.session_state.navigation = "🏠 Home"
+
 # Sidebar - Configuration
 st.sidebar.markdown("### Settings") # Minimal Header
 app_mode = st.sidebar.radio(
     "Navigation", 
-    ["🏠 Home", "Topic Practice", "Full Mock Test", "📚 Knowledge Base", "📊 Syllabus Tracker"]
+    ["🏠 Home", "Topic Practice", "Full Mock Test", "📚 Knowledge Base", "📊 Syllabus Tracker"],
+    key="navigation"
 )
 
 # Persistent Scratchpad
@@ -405,11 +410,23 @@ if not api_key:
     st.sidebar.error("⚠️ API Key missing in .env")
 
 # Model Selection: Hardcoded to reliable models for Free Tier
-# 'gemini-2.0-flash' is available and efficiently supported.
-model_name = "gemini-2.0-flash" 
+# 'gemini-1.5-flash' is the current stability king for free tier high-volume.
+# model_name = "gemini-2.0-flash" 
 
-# Hidden Debug Config (Optional, commented out)
-# model_name = st.sidebar.selectbox("Model", ["gemini-1.5-flash", "gemini-1.5-pro"], index=0)
+# Advanced Config (Hidden by default)
+with st.sidebar.expander("⚙️ Advanced Config"):
+    model_name = st.selectbox(
+        "AI Model (Switch if Busy)", 
+        [
+            "gemini-flash-latest", 
+            "gemini-2.0-flash", 
+            "gemini-1.5-flash", 
+            "gemini-1.5-pro", 
+            "gemini-pro-latest"
+        ], 
+        index=0,
+        help="Switch models if you hit a 'Rate Limit' (429) error."
+    )
 
 difficulty = st.sidebar.select_slider(
     "Complexity",
@@ -442,32 +459,40 @@ if app_mode == "🏠 Home":
     
     col_h1, col_h2, col_h3 = st.columns(3)
     
+    # Navigation Callbacks
+    def go_to_topic(): st.session_state.navigation = "Topic Practice"
+    def go_to_mock(): st.session_state.navigation = "Full Mock Test"
+    def go_to_kb(): st.session_state.navigation = "📚 Knowledge Base"
+    
     with col_h1:
         st.markdown("""
-        <div style="padding: 20px; background-color: #111827; border: 1px solid #1F2937; border-radius: 12px; height: 200px; text-align: center;">
+        <div style="padding: 20px; background-color: #111827; border: 1px solid #1F2937; border-radius: 12px; height: 160px; text-align: center; margin-bottom: 15px;">
             <div style="font-size: 40px; margin-bottom: 10px;">🎯</div>
             <h3 style="margin: 0; color: #F9FAFB;">Topic Drill</h3>
             <p style="color: #9CA3AF; font-size: 14px;">Focused practice on specific chapters or themes.</p>
         </div>
         """, unsafe_allow_html=True)
+        st.button("Start Drill ➔", key="btn_topic", use_container_width=True, on_click=go_to_topic)
     
     with col_h2:
         st.markdown("""
-        <div style="padding: 20px; background-color: #111827; border: 1px solid #1F2937; border-radius: 12px; height: 200px; text-align: center;">
+        <div style="padding: 20px; background-color: #111827; border: 1px solid #1F2937; border-radius: 12px; height: 160px; text-align: center; margin-bottom: 15px;">
             <div style="font-size: 40px; margin-bottom: 10px;">🛡️</div>
             <h3 style="margin: 0; color: #F9FAFB;">Mock Test</h3>
             <p style="color: #9CA3AF; font-size: 14px;">Full-length mixed subject simulation.</p>
         </div>
         """, unsafe_allow_html=True)
+        st.button("Launch Mock ➔", key="btn_mock", use_container_width=True, on_click=go_to_mock)
         
     with col_h3:
         st.markdown("""
-        <div style="padding: 20px; background-color: #111827; border: 1px solid #1F2937; border-radius: 12px; height: 200px; text-align: center;">
+        <div style="padding: 20px; background-color: #111827; border: 1px solid #1F2937; border-radius: 12px; height: 160px; text-align: center; margin-bottom: 15px;">
             <div style="font-size: 40px; margin-bottom: 10px;">📚</div>
             <h3 style="margin: 0; color: #F9FAFB;">Library</h3>
             <p style="color: #9CA3AF; font-size: 14px;">Study form your uploaded reference books.</p>
         </div>
         """, unsafe_allow_html=True)
+        st.button("Open Library ➔", key="btn_kb", use_container_width=True, on_click=go_to_kb)
 
     st.info("👈 Select a mode from the sidebar to begin.")
 
