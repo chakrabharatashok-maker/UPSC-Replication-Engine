@@ -11,6 +11,13 @@ from io import BytesIO
 from reportlab.graphics.shapes import Drawing, Rect, Path
 from reportlab.pdfgen import canvas
 
+# Optional: OAuth Support
+try:
+    from streamlit_oauth import OAuth2Component
+    HAS_OAUTH = True
+except ImportError:
+    HAS_OAUTH = False
+
 @st.cache_data(ttl=3600)
 def get_available_models(api_key):
     """Fetches available Gemini models dynamically from the API."""
@@ -71,9 +78,41 @@ def render_login_page():
         with st.container(border=True):
             st.markdown("#### Access Your Account")
             
-            # Google Auth "Link" Logic
-            if st.button("🔴  Sign in with Google", use_container_width=True):
-                st.session_state.auth_method = "google"
+            # Google Auth "Link" Logic (Hybrid: Real vs Simulation)
+            CLIENT_ID = st.secrets.get("google", {}).get("client_id")
+            CLIENT_SECRET = st.secrets.get("google", {}).get("client_secret")
+            
+            if HAS_OAUTH and CLIENT_ID and CLIENT_SECRET:
+                # -- REAL OAUTH FLOW --
+                oauth2 = OAuth2Component(CLIENT_ID, CLIENT_SECRET, 
+                    "https://accounts.google.com/o/oauth2/v2/auth", 
+                    "https://oauth2.googleapis.com/token", 
+                    "https://www.googleapis.com/oauth2/v3/token", 
+                    "https://www.googleapis.com/oauth2/v1/userinfo")
+                
+                result = oauth2.authorize_button(
+                    name="Sign in with Google",
+                    icon="https://www.google.com.tw/favicon.ico",
+                    redirect_uri="http://localhost:8501", # Note: User might need to change this for deploys
+                    scope="openid email profile",
+                    key="google_auth",
+                    extras_params={"prompt": "select_account"},
+                    use_container_width=True,
+                )
+                
+                if result:
+                    # Verify token and get email
+                    if "token" in result:
+                        st.session_state.authenticated = True
+                        email_data = result.get("token", {}).get("id_token_claims", {}).get("email", "Google User")
+                        st.balloons()
+                        st.toast(f"Verified Google Login: {email_data}", icon="✅")
+                        st.session_state.auth_method = "google_real"
+                        st.rerun()
+            else:
+                # -- SIMULATION FLOW (Fallback) --
+                if st.button("🔴  Sign in with Google", use_container_width=True):
+                    st.session_state.auth_method = "google"
                 
             if st.session_state.get("auth_method") == "google":
                 st.info("ℹ️ Enter your **Gmail** address to verify identity.")
