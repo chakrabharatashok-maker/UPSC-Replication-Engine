@@ -21,6 +21,13 @@ def get_available_models(api_key):
         for m in genai.list_models():
             if 'generateContent' in m.supported_generation_methods:
                 if 'gemini' in m.name.lower():
+                    # FILTER: Strict JSON Support Check
+                    # Exclude 1.0, gemini-pro (legacy), and any experimental that isn't explicitly newer
+                    # Keep if: "1.5", "2.0", "flash", "latest" are present
+                    n = m.name.lower()
+                    if "1.0" in n: continue
+                    if n == "models/gemini-pro": continue # Legacy 1.0 Pro
+                    
                     models.append(m.name)
         
         # Reliability Sort: 1.5 Flash (Most Reliable) > 2.0 Flash (Newer) > Pro > Experimental
@@ -458,7 +465,7 @@ with st.sidebar.expander("⚙️ Advanced Config"):
         "gemini-2.0-flash",      # Powerful & fast
         "gemini-flash-latest",   # Alias
         "gemini-1.5-pro",        # High IQ (Low Rate Limit)
-        "gemini-pro-latest"
+        # removed gemini-pro-latest as it can map to 1.0 sometimes
     ]
     
     # Combined: fetched first, then unique defaults
