@@ -3,6 +3,8 @@ import google.generativeai as genai
 import PyPDF2
 from dotenv import load_dotenv
 import json
+import time
+import random
 
 load_dotenv()
 
@@ -123,6 +125,28 @@ class ExamEngine:
         self.api_key = api_key
         genai.configure(api_key=self.api_key)
 
+    def _call_with_retry(self, func, *args, **kwargs):
+        """Exponential backoff retry wrapper for API calls."""
+        max_retries = 3
+        base_delay = 2
+        
+        for attempt in range(max_retries + 1):
+            try:
+                return func(*args, **kwargs)
+            except Exception as e:
+                error_str = str(e).lower()
+                if "429" in error_str or "resource exhausted" in error_str:
+                    if attempt < max_retries:
+                        sleep_time = (base_delay * (2 ** attempt)) + random.uniform(0, 1)
+                        print(f"⚠️ Rate limit hit. Retrying in {sleep_time:.2f}s... (Attempt {attempt+1}/{max_retries})")
+                        time.sleep(sleep_time)
+                        continue
+                    else:
+                        raise Exception("Rate limit exceeded after multiple retries. Please wait 1-2 minutes.")
+                else:
+                    # Non-retryable error
+                    raise e
+
     def extract_text_from_pdf(self, pdf_file, start_page=1, end_page=None):
         """
         Extracts text from a PDF. Can specify a page range (1-indexed).
@@ -196,7 +220,12 @@ class ExamEngine:
         """
 
         try:
-            response = model.generate_content(prompt)
+            # Wrapped Call
+            response = self._call_with_retry(
+                model.generate_content, 
+                prompt, 
+                generation_config={"response_mime_type": "application/json"}
+            )
             text = response.text
             # Clean up markdown code blocks if present
             if "```json" in text:
@@ -206,7 +235,7 @@ class ExamEngine:
             
             return json.loads(text)
         except Exception as e:
-            if "429" in str(e):
+            if "429" in str(e) or "limit" in str(e).lower():
                  return {"error": "⚠️ **Error: Rate limit exceeded (429).**\n\nThe AI model is currently busy. Please try:\n1. Switching to a different model in the sidebar.\n2. Waiting for a minute."}
             return {"error": f"Error generating content: {str(e)}"}
 
@@ -231,12 +260,6 @@ class ExamEngine:
         
         all_questions = []
         
-        # We need to yield progress or just return all?
-        # For simplicity in engine, we just return all. 
-        # But for UI progress bar, we might need a callback? 
-        # Let's keep it simple: Engine does the work, UI waits. 
-        # We can implement a generator if needed, but for now simple loop.
-        
         for i, subject in enumerate(subjects):
             count = q_per_subject + (1 if i < remaining else 0)
             if count == 0: continue
@@ -254,8 +277,6 @@ class ExamEngine:
                 all_questions.extend(response["questions"])
             elif "error" in response:
                 # If rate limit or error, we stop and return what we have? 
-                # Or just skip? Let's return error if critical, or skip if minor.
-                # If rate limit, better to stop.
                 if "Rate limit" in response["error"]:
                      return response
         
@@ -274,6 +295,45 @@ class ExamEngine:
             return {"error": f"Error initializing model: {str(e)}"}
 
         questions_str = json.dumps(questions, indent=2)
+        
+        prompt = f"""
+        You are a Senior Reviewer for UPSC Prelims Examination questions.
+        
+        Analyze the following set of {len(questions)} questions on '{topic}' produced by a junior setter.
+        
+        Your Job:
+        1. Score the set out of 10 based on:
+           - Conceptual Depth (Does it test understanding or just facts?)
+           - Ambiguity (Are statements clear? Is elimination logic possible?)
+           - Adherence to Recent Trend (2023-24 Pattern: 'Only one', 'Only two' types, Match pairs)
+           
+        2. Identify specific flaws in Question Number X (if any).
+        
+        3. Providing a Verdict: "Approved", "Needs Polish", or "Rejected".
+        
+        INPUT QUESTIONS JSON:
+        {questions_str}
+        
+        OUTPUT FORMAT (JSON):
+        {{
+            "overall_score": 8,
+            "verdict": "Approved",
+            "strengths": ["...", "..."],
+            "issues": [
+                {{ "question_index": 0, "issue": "Too factual, options are too easy." }}
+            ]
+        }}
+        """
+        
+        try:
+            response = self._call_with_retry(
+                model.generate_content, 
+                prompt, 
+                generation_config={"response_mime_type": "application/json"}
+            )
+            return json.loads(response.text)
+        except Exception as e:
+            return {"error": str(e)}
 
         prompt = f"""
         You are a Senior Chief Examiner for UPSC (Union Public Service Commission).
