@@ -401,10 +401,13 @@ st.sidebar.markdown("### 📝 Quick Notes")
 st.sidebar.text_area("Jot down concepts...", height=200, key="scratchpad", help="These notes persist during your session.")
 
 # -- Configuration --
-# Load API Key from environment (Hidden from UI)
+# Load API Key (Supports both Local .env and Streamlit Cloud Secrets)
 from dotenv import load_dotenv
 load_dotenv()
 api_key = os.getenv("GEMINI_API_KEY")
+
+if not api_key and "GEMINI_API_KEY" in st.secrets:
+    api_key = st.secrets["GEMINI_API_KEY"]
 
 if not api_key:
     st.sidebar.error("⚠️ API Key missing in .env")
