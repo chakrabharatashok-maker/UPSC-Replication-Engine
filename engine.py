@@ -259,6 +259,7 @@ class ExamEngine:
         remaining = num_questions % len(subjects)
         
         all_questions = []
+        errors = []
         
         for i, subject in enumerate(subjects):
             count = q_per_subject + (1 if i < remaining else 0)
@@ -276,10 +277,14 @@ class ExamEngine:
             if "questions" in response:
                 all_questions.extend(response["questions"])
             elif "error" in response:
-                # If rate limit or error, we stop and return what we have? 
+                errors.append(f"{subject}: {response['error']}")
+                # If rate limit, we strictly stop
                 if "Rate limit" in response["error"]:
                      return response
         
+        if not all_questions:
+            return {"error": "Failed to generate any questions.\nDetails:\n" + "\n".join(errors)}
+            
         return {"questions": all_questions}
 
     def evaluate_questions(self, questions, topic, model_name="gemini-2.0-flash"):

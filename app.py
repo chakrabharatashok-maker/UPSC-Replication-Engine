@@ -630,10 +630,6 @@ elif app_mode == "Full Mock Test":
                     st.session_state.current_topic = f"Full Mock Test ({len(st.session_state.quiz_data)} Qs)"
                     st.rerun()
 
-                    st.session_state.quiz_active = True
-                    st.session_state.current_topic = f"Full Mock Test ({len(st.session_state.quiz_data)} Qs)"
-                    st.rerun()
-
 elif app_mode == "📚 Knowledge Base":
     st.markdown("#### 📚 Digital Library & Study Center")
     st.info("Upload PDFs to your library. The AI will index them by Subject & Chapter.")
