@@ -821,7 +821,82 @@ if "quiz_active" in st.session_state and st.session_state.quiz_active:
         
         st.rerun()
 
-# Results Display (keeps same) ... (omitted in replace, see StartLine context)
+# Results Display
+if "quiz_submitted" in st.session_state and st.session_state.quiz_submitted:
+    st.markdown("## 📊 Performance Report")
+    
+    quiz_data = st.session_state.quiz_data
+    user_answers = st.session_state.user_answers
+    
+    # Calculate Score
+    score = 0
+    correct_count = 0
+    for i, q in enumerate(quiz_data):
+        user_choice = user_answers.get(i)
+        if user_choice == q['correct_option']:
+            score += 2
+            correct_count += 1
+        elif user_choice is not None:
+            score -= 0.66
+            
+    total_q = len(quiz_data)
+    max_score = total_q * 2
+    accuracy = (correct_count / total_q) * 100
+    
+    # 1. Visual Scorecard
+    st.markdown("---")
+    metric_cols = st.columns([1, 1, 2])
+    with metric_cols[0]: st.metric("Net Score", f"{score:.2f} / {max_score}")
+    with metric_cols[1]: st.metric("Accuracy", f"{accuracy:.1f}%")
+        
+    with metric_cols[2]:
+        if accuracy >= 80:
+            status = "🌟 Outstanding"
+            color = "green"
+        elif accuracy >= 50:
+            status = "📈 Good"
+            color = "orange"
+        else:
+            status = "⚠️ Needs Revision"
+            color = "red"
+        st.markdown(f"**Status:**")
+        st.markdown(f"<h3 style='color: {color}; margin:0;'>{status}</h3>", unsafe_allow_html=True)
+        st.progress(min(max(accuracy / 100, 0), 1.0))
+        
+    st.markdown("---")
+    
+    # 2. Detailed Breakdown
+    for i, q in enumerate(quiz_data):
+        user_choice = user_answers.get(i)
+        correct_choice = q['correct_option']
+        
+        if not user_choice:
+            status = "Skipped"
+            color = "orange"
+        elif user_choice == correct_choice:
+            status = "Correct"
+            color = "green"
+        else:
+            status = "Wrong"
+            color = "red"
+            
+        with st.expander(f"Q{i+1}: {status}", expanded=False):
+            st.markdown(f"**Question:** {q['question_text']}")
+            col_ua, col_ca = st.columns(2)
+            with col_ua: st.markdown(f"**Your Answer:** :{color}[{user_choice if user_choice else 'None'}]")
+            with col_ca: st.markdown(f"**Correct Answer:** :green[{correct_choice}]")
+            st.info(f"**Explanation:** {q['explanation']}")
+            
+    st.markdown("---")
+    
+    # Export PDF (Simplification: Just basic reset for now to fix error, PDF can be re-added if needed but prioritized fixing crash)
+    
+    def reset_quiz():
+        st.session_state.quiz_active = False
+        st.session_state.quiz_submitted = False
+        st.session_state.quiz_data = []
+        st.session_state.user_answers = {}
+        st.rerun()
 
     st.button("Start New Quiz", on_click=reset_quiz)
 
