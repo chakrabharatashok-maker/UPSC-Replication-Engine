@@ -234,195 +234,205 @@ def create_pdf(quiz_data, user_answers, topic, difficulty, total_score, max_scor
     buffer.seek(0)
     return buffer
 
-# Custom CSS for "Premium" feel (Navy, Gold & Clean White)
+# Custom CSS for "Premium Card-Based" Aesthetic
 st.markdown("""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
 
     :root {
-        --primary-color: #FAFAFA;
-        --accent-color: #2D8CFF; /* Electric Blue */
-        --bg-color: #0F1115; /* Matte Dark */
-        --text-color: #FAFAFA;
-        --card-bg: #181B21; /* Panel Dark */
-        --sidebar-bg: #0F1115;
-        --input-bg: #181B21;
+        --bg-color: #030712;       /* Ultra Dark (Gray 950) */
+        --card-bg: #111827;        /* Rich Dark (Gray 900) */
+        --text-primary: #F9FAFB;   /* Bright White (Gray 50) */
+        --text-secondary: #9CA3AF; /* Muted Grey (Gray 400) */
+        --accent-color: #3B82F6;   /* Bright Blue (Blue 500) */
+        --border-color: #1F2937;   /* Dark Border (Gray 800) */
     }
 
     html, body, [class*="css"] {
-        font-family: 'Inter', sans-serif !important;
-        color: var(--text-color);
+        font-family: 'Plus Jakarta Sans', sans-serif !important;
+        color: var(--text-primary);
+        background-color: var(--bg-color);
     }
-
-    /* Main App Background */
+    
+    /* 1. Layout: Clean & Open */
     .stApp {
         background-color: var(--bg-color);
-        background-image: radial-gradient(circle at 50% 0%, #1a202c 0%, #0F1115 50%);
+        background-image: none;
+    }
+    
+    .block-container {
+        padding-top: 2rem;
+        padding-bottom: 5rem;
+        max-width: 900px;
     }
 
-    /* Sidebar Styling */
+    /* 2. Typography: "Stylish Modern" */
+    h1, h2, h3, h4, h5 {
+        font-family: 'Outfit', sans-serif !important;
+        color: var(--text-primary) !important;
+        font-weight: 700;
+        letter-spacing: -0.02em; /* Tight tracking for style */
+    }
+    
+    h1 { font-size: 2.6rem !important; margin-bottom: 0.5rem !important; }
+    h2 { font-size: 2rem !important; margin-top: 2rem !important; }
+    h3 { font-size: 1.5rem !important; }
+    
+    p, li, label, .stMarkdown {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-size: 16px;
+        line-height: 1.6;
+        color: var(--text-primary) !important;
+    }
+
+    /* 3. Sidebar: Muted & Minimal */
     section[data-testid="stSidebar"] {
-        background-color: var(--sidebar-bg);
-        border-right: 1px solid #1F2937;
+        background-color: var(--bg-color); /* Very subtle grey */
+        border-right: 1px solid var(--border-color);
     }
     section[data-testid="stSidebar"] h1, 
     section[data-testid="stSidebar"] h2, 
     section[data-testid="stSidebar"] h3, 
-    section[data-testid="stSidebar"] label,
-    section[data-testid="stSidebar"] .stMarkdown {
-        color: #94A3B8 !important; /* Muted Text */
+    section[data-testid="stSidebar"] label {
+        color: var(--text-primary) !important;
     }
     
-    /* Input Fields */
+    /* 4. Inputs: "Shopping Search" Style */
     .stTextInput > div > div > input, 
     .stSelectbox > div > div > div, 
     .stMultiSelect > div > div > div {
-        background-color: var(--input-bg);
-        color: #FAFAFA;
-        border: 1px solid #2D3748;
-        border-radius: 12px; /* Rounded inputs */
+        background-color: var(--card-bg);
+        color: var(--text-primary);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 12px;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.2);
     }
     .stTextInput > div > div > input:focus {
         border-color: var(--accent-color);
-        box-shadow: 0 0 0 2px rgba(45, 140, 255, 0.2);
-    }
-    p, li, label, .stMarkdown {
-        color: #E2E8F0 !important;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
     }
 
-    /* Buttons */
+    /* 5. Buttons: Subtle & Premium */
     .stButton > button {
-        background: linear-gradient(135deg, #2D8CFF 0%, #2563EB 100%); /* Blue Gradient */
-        color: #FFFFFF;
-        border: none;
-        border-radius: 12px;
+        background-color: var(--card-bg);
+        color: var(--accent-color);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        font-family: 'Plus Jakarta Sans', sans-serif;
         font-weight: 600;
-        letter-spacing: 0.5px;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 14px 0 rgba(45, 140, 255, 0.39);
         padding: 0.6rem 1.2rem;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        transition: all 0.2s;
     }
     .stButton > button:hover {
-        background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px 0 rgba(45, 140, 255, 0.39);
-        color: #FFF;
+        border-color: var(--accent-color);
+        background-color: var(--card-bg); /* Keep dark on hover */
+        color: var(--accent-color);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 6px rgba(0,0,0,0.4);
     }
 
-    /* Headings */
-    h1, h2, h3, h4, h5 {
-        color: #FFF !important;
-        font-weight: 800;
-        letter-spacing: -0.025em;
-    }
-
-    /* Custom Card Class for Quiz */
+    /* 6. Cards: The "Product Catalog" Look */
     .quiz-card {
         background-color: var(--card-bg);
-        border: 1px solid #2D3748;
-        border-radius: 20px; /* Highly rounded cards */
-        padding: 28px;
+        border: 1px solid var(--border-color);
+        border-radius: 16px; /* Soft, friendly corners */
+        padding: 32px;
         margin-bottom: 24px;
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
-        border-left: none; /* Removed the left accent for full card look */
-        position: relative;
-        overflow: hidden;
-    }
-    /* "Glass" accent on top of card */
-    .quiz-card::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 4px;
-        background: linear-gradient(90deg, #2D8CFF, #60A5FA);
+        box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.3); /* Premium dark shadow */
+        border-left: 4px solid var(--accent-color);
     }
     
-    /* Expander Styling */
+    /* Expander */
     .streamlit-expanderHeader {
-        background-color: var(--card-bg);
-        color: #FAFAFA !important;
-        border-radius: 10px;
-        border: 1px solid #2D3748;
+        background-color: var(--card-bg) !important;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        color: var(--text-primary) !important;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    }
+    
+    hr {
+        border-color: var(--border-color);
+        margin: 2.5rem 0;
     }
     
 </style>
 """, unsafe_allow_html=True)
 
 # Sidebar - Configuration
-st.sidebar.title("⚙️ Exam DNA Settings")
-app_mode = st.sidebar.radio("Select Mode", ["Topic Practice", "Full Mock Test", "📚 Knowledge Base"], help="Topic Practice: Deep dive into one topic.\\nFull Mock: Mixed questions across all subjects.\\nKnowledge Base: Library & Chapter-wise tests.")
+st.sidebar.markdown("### Settings") # Minimal Header
+app_mode = st.sidebar.radio("Navigation", ["Topic Practice", "Full Mock Test", "📚 Knowledge Base"])
 
-api_key = st.sidebar.text_input("Gemini API Key", type="password", help="Enter your Google Gemini API Key here.")
+api_key = st.sidebar.text_input("Gemini API Key", type="password")
 if not api_key:
     api_key = os.getenv("GEMINI_API_KEY")
 
 model_name = st.sidebar.selectbox(
     "AI Model",
-    options=["gemini-2.0-flash", "gemini-2.0-flash-lite", "gemini-flash-latest", "gemini-pro-latest"],
-    index=0,
-    help="Switch models if you encounter rate limits (429 errors)."
+    options=["gemini-2.0-flash", "gemini-2.0-flash-lite", "gemini-flash-latest"],
+    index=0
 )
 
 difficulty = st.sidebar.select_slider(
-    "Difficulty Level",
-    options=["Easy", "Moderate", "Hard", "Extreme (UPSC 2023 Level)"],
-    value="Hard"
+    "Complexity",
+    options=["Fundamental", "Applied", "Advanced", "UPSC Actual"],
+    value="Advanced"
 )
 
-num_questions = st.sidebar.slider("Number of Questions", 1, 10, 5)
+num_questions = st.sidebar.slider("Questions", 1, 10, 5)
 
 # Initialize Engine & Librarian
 if "engine" not in st.session_state:
     st.session_state.engine = ExamEngine(api_key)
 
 # Self-healing
-if not hasattr(st.session_state.engine, 'generate_mock_test') or not hasattr(st.session_state.engine, 'analyze_structure'):
+if not hasattr(st.session_state.engine, 'generate_mock_test'):
     st.session_state.engine = ExamEngine(api_key)
 
 if api_key:
     st.session_state.engine.set_api_key(api_key)
-    # Initialize Librarian
     if "librarian" not in st.session_state:
         st.session_state.librarian = Librarian(api_key)
 
-# Main Content
-st.title("🇮🇳 UPSC Exam Replication Engine")
-st.markdown("### *Think like the Examiner.*")
+# Main Content: Minimal Header
+st.title("UPSC Dream")
+st.markdown("---") # Minimal Divider
 
 col1, col2 = st.columns([1, 1])
 
 if app_mode == "Topic Practice":
     with col1:
-        st.markdown("#### 1. Context Source (Optional)")
-        uploaded_file = st.file_uploader("Upload NCERT/Reference Chapter (PDF)", type="pdf")
+        st.markdown("#### Source Material")
+        uploaded_file = st.file_uploader("Upload Chapter (PDF)", type="pdf")
         
         source_text = None
         if uploaded_file:
-            with st.spinner("Extracting text from PDF..."):
+            with st.spinner("Analyzing text..."):
                 source_text = st.session_state.engine.extract_text_from_pdf(uploaded_file)
-                st.success("PDF processed successfully!")
-                with st.expander("View Extracted Text"):
-                    st.text(source_text[:1000] + "...")
+                st.success("Analysis complete.")
 
     with col2:
-        st.markdown("#### 2. Target Topic")
-        topic = st.text_input("Enter Topic (e.g., 'Revolt of 1857', 'Monetary Policy')", placeholder="Type a topic...")
+        st.markdown("#### Inquiry Topic")
+        topic = st.text_input("Topic", placeholder="e.g. Constitutional Morality...")
 
-        generate_btn = st.button("Generate Questions")
+        generate_btn = st.button("Begin Session")
 
     if generate_btn:
         if not api_key:
-            st.error("Please enter your Gemini API Key in the sidebar to proceed.")
+            st.error("API Key required.")
         elif not topic:
-            st.warning("Please enter a topic.")
+            st.warning("Please define a topic.")
         else:
-            with st.spinner("Simulating Examiner Mindset... Generating Questions..."):
+            with st.spinner("Curating questions..."):
+                # Map aesthetic difficulty names back to logic
+                diff_map = {"Fundamental": "Easy", "Applied": "Moderate", "Advanced": "Hard", "UPSC Actual": "Extreme"}
+                
                 response_json = st.session_state.engine.generate_questions(
                     topic=topic,
                     source_text=source_text,
-                    difficulty=difficulty,
+                    difficulty=diff_map.get(difficulty, "Hard"),
                     num_questions=num_questions,
                     model_name=model_name
                 )
@@ -432,31 +442,29 @@ if app_mode == "Topic Practice":
                 else:
                     st.session_state.quiz_data = response_json.get("questions", [])
                     st.session_state.quiz_active = True
-                    # Store topic for results
                     st.session_state.current_topic = topic
                     st.rerun()
 
 elif app_mode == "Full Mock Test":
-    st.markdown("#### 🛡️ Full-Length Mock Simulation")
-    st.info("This mode generates a balanced paper covering History, Polity, Economy, Geography, Science, and Current Affairs.")
+    st.markdown("#### Comprehensive Simulation")
+    st.info("Full syllabus coverage: History, Polity, Economy, Geography, Science, Current Affairs.")
     
-    # Override num_questions for mock if needed, or use a separate slider?
-    # Let's use a specific slider for mock length to allow larger sets
     col_mock1, col_mock2 = st.columns([2, 1])
     with col_mock1:
-        st.markdown("The system will iterate through all major UPSC subjects to create a comprehensive test.")
+        st.write("") # Spacer
     
     with col_mock2:
-         mock_q_count = st.select_slider("Total Questions", options=[10, 20, 30, 50, 100], value=20)
+         mock_q_count = st.select_slider("Length", options=[10, 20, 30, 50, 100], value=20)
     
-    if st.button("Start Full Mock Test"):
+    if st.button("Start Simulation"):
         if not api_key:
-            st.error("Please enter your Gemini API Key in the sidebar.")
+            st.error("API Key required.")
         else:
-            with st.spinner(f"Generating {mock_q_count} questions across all subjects... This may take a moment."):
+            diff_map = {"Fundamental": "Easy", "Applied": "Moderate", "Advanced": "Hard", "UPSC Actual": "Extreme"}
+            with st.spinner(f"Curating {mock_q_count} questions..."):
                 response_json = st.session_state.engine.generate_mock_test(
                     num_questions=mock_q_count,
-                    difficulty=difficulty,
+                    difficulty=diff_map.get(difficulty, "Hard"),
                     model_name=model_name
                 )
                 
@@ -527,11 +535,14 @@ elif app_mode == "📚 Knowledge Base":
                     
                     # Book Card Visual
                     st.markdown(f"""
-                    <div style="padding: 20px; border: 1px solid #2D3748; border-radius: 12px; background-color: #181B21; display: flex; align-items: center; margin-bottom: 24px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);">
-                        <div style="font-size: 40px; margin-right: 20px;">📕</div>
+                    <div style="padding: 24px; border: 1px solid #1F2937; border-radius: 12px; background-color: #111827; display: flex; align-items: start; margin-bottom: 24px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.3);">
+                        <div style="font-size: 32px; margin-right: 20px; line-height: 1;">📖</div>
                         <div>
-                            <h3 style="margin: 0; color: #FAFAFA; font-weight: 700;">{sel_book}</h3>
-                            <p style="margin: 5px 0 0 0; color: #94A3B8; font-size: 14px;">{len(chapters)} Chapters Indexed • Subject: <span style="color: #2D8CFF;">{sel_subject}</span></p>
+                            <h3 style="margin: 0 0 8px 0; color: #F9FAFB; font-family: 'Outfit', sans-serif; font-size: 1.4rem; font-weight: 600;">{sel_book}</h3>
+                            <p style="margin: 0; color: #9CA3AF; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px;">
+                                {len(chapters)} Chapters Indexed <span style="margin: 0 8px;">•</span> 
+                                <span style="color: #3B82F6; font-weight: 500;">{sel_subject}</span>
+                            </p>
                         </div>
                     </div>
                     """, unsafe_allow_html=True)
