@@ -391,7 +391,7 @@ if "navigation" not in st.session_state:
 st.sidebar.markdown("### Settings") # Minimal Header
 app_mode = st.sidebar.radio(
     "Navigation", 
-    ["🏠 Home", "Topic Practice", "Full Mock Test", "📚 Knowledge Base", "📊 Syllabus Tracker"],
+    ["🏠 Home", "Topic Practice", "Full Mock Test", "📚 Knowledge Base", "📊 Syllabus Tracker", "📜 Quiz History"],
     key="navigation"
 )
 
@@ -460,42 +460,51 @@ if app_mode == "🏠 Home":
     st.markdown("### Welcome, Aspirant.")
     st.markdown("What is your focus for today's session?")
     
-    col_h1, col_h2, col_h3 = st.columns(3)
+    # 2 rows of 2 columns for better layout
+    row1 = st.columns(2)
+    row2 = st.columns(2)
     
     # Navigation Callbacks
     def go_to_topic(): st.session_state.navigation = "Topic Practice"
     def go_to_mock(): st.session_state.navigation = "Full Mock Test"
     def go_to_kb(): st.session_state.navigation = "📚 Knowledge Base"
+    def go_to_history(): st.session_state.navigation = "📜 Quiz History"
     
-    with col_h1:
+    with row1[0]:
         st.markdown("""
         <div style="padding: 20px; background-color: #111827; border: 1px solid #1F2937; border-radius: 12px; height: 160px; text-align: center; margin-bottom: 15px;">
             <div style="font-size: 40px; margin-bottom: 10px;">🎯</div>
             <h3 style="margin: 0; color: #F9FAFB;">Topic Drill</h3>
-            <p style="color: #9CA3AF; font-size: 14px;">Focused practice on specific chapters or themes.</p>
         </div>
         """, unsafe_allow_html=True)
         st.button("Start Drill ➔", key="btn_topic", use_container_width=True, on_click=go_to_topic)
     
-    with col_h2:
+    with row1[1]:
         st.markdown("""
         <div style="padding: 20px; background-color: #111827; border: 1px solid #1F2937; border-radius: 12px; height: 160px; text-align: center; margin-bottom: 15px;">
             <div style="font-size: 40px; margin-bottom: 10px;">🛡️</div>
             <h3 style="margin: 0; color: #F9FAFB;">Mock Test</h3>
-            <p style="color: #9CA3AF; font-size: 14px;">Full-length mixed subject simulation.</p>
         </div>
         """, unsafe_allow_html=True)
         st.button("Launch Mock ➔", key="btn_mock", use_container_width=True, on_click=go_to_mock)
         
-    with col_h3:
+    with row2[0]:
         st.markdown("""
         <div style="padding: 20px; background-color: #111827; border: 1px solid #1F2937; border-radius: 12px; height: 160px; text-align: center; margin-bottom: 15px;">
             <div style="font-size: 40px; margin-bottom: 10px;">📚</div>
             <h3 style="margin: 0; color: #F9FAFB;">Library</h3>
-            <p style="color: #9CA3AF; font-size: 14px;">Study form your uploaded reference books.</p>
         </div>
         """, unsafe_allow_html=True)
         st.button("Open Library ➔", key="btn_kb", use_container_width=True, on_click=go_to_kb)
+
+    with row2[1]:
+        st.markdown("""
+        <div style="padding: 20px; background-color: #111827; border: 1px solid #1F2937; border-radius: 12px; height: 160px; text-align: center; margin-bottom: 15px;">
+            <div style="font-size: 40px; margin-bottom: 10px;">📜</div>
+            <h3 style="margin: 0; color: #F9FAFB;">History</h3>
+        </div>
+        """, unsafe_allow_html=True)
+        st.button("View Past Quizzes ➔", key="btn_hist", use_container_width=True, on_click=go_to_history)
 
     st.info("👈 Select a mode from the sidebar to begin.")
 
@@ -782,110 +791,65 @@ if "quiz_active" in st.session_state and st.session_state.quiz_active:
     if submit_btn:
         st.session_state.user_answers = user_answers
         st.session_state.quiz_submitted = True
+        
+        # Save to History
+        # We need to calc score here (duplicate logic, but needed for save data)
+        # Optimized: Just save, we calc properly in Results view.
+        # WAIT: save_quiz needs the score. Let's do a quick calc.
+        
+        _score = 0
+        for _i, _q in enumerate(st.session_state.quiz_data):
+            _choice = user_answers.get(_i)
+            if _choice == _q['correct_option']:
+                _score += 2
+            elif _choice is not None:
+                _score -= 0.66
+        
+        _max = len(st.session_state.quiz_data) * 2
+        
+        #Lazy init
+        if "history_manager" not in st.session_state:
+            from quiz_history_manager import QuizHistory
+            st.session_state.history_manager = QuizHistory()
+            
+        st.session_state.history_manager.save_quiz(
+            topic=st.session_state.get("current_topic", "General Quiz"),
+            quiz_data=st.session_state.quiz_data,
+            score=_score,
+            max_score=_max
+        )
+        
         st.rerun()
 
-# Results Display
-if "quiz_submitted" in st.session_state and st.session_state.quiz_submitted:
-    st.markdown("## 📊 Performance Report")
-    
-    quiz_data = st.session_state.quiz_data
-    user_answers = st.session_state.user_answers
-    
-    # Calculate Score First
-    score = 0
-    correct_count = 0
-    skipped_count = 0
-    for i, q in enumerate(quiz_data):
-        user_choice = user_answers.get(i)
-        if user_choice == q['correct_option']:
-            score += 2
-            correct_count += 1
-        elif user_choice is None:
-            skipped_count += 1
-        else:
-            score -= 0.66
-            
-    total_q = len(quiz_data)
-    max_score = total_q * 2
-    accuracy = (correct_count / total_q) * 100
-    
-    # 1. Visual Scorecard
-    st.markdown("---")
-    metric_cols = st.columns([1, 1, 2])
-    
-    with metric_cols[0]:
-        st.metric("Net Score", f"{score:.2f} / {max_score}")
-    
-    with metric_cols[1]:
-        st.metric("Accuracy", f"{accuracy:.1f}%")
-        
-    with metric_cols[2]:
-        # Contextual Status
-        if accuracy >= 80:
-            status = "🌟 Outstanding (UPSC Ready)"
-            color = "green"
-        elif accuracy >= 50:
-            status = "📈 Good / On Track"
-            color = "orange"
-        else:
-            status = "⚠️ Needs Revision"
-            color = "red"
-        
-        st.markdown(f"**Status:**")
-        st.markdown(f"<h3 style='color: {color}; margin:0;'>{status}</h3>", unsafe_allow_html=True)
-        st.progress(min(max(accuracy / 100, 0), 1.0))
-        
-    st.toast(f"Quiz Submitted! Score: {score:.2f}", icon="✅")
-    st.markdown("---")
-    # 2. Detailed Breakdown
-    st.markdown("### 📝 Detailed Analysis")
-    for i, q in enumerate(quiz_data):
-        user_choice = user_answers.get(i)
-        correct_choice = q['correct_option']
-        
-        # Determine status for this specific question visual
-        if not user_choice:
-            status = "Skipped"
-            color = "orange"
-        elif user_choice == correct_choice:
-            status = "Correct"
-            color = "green"
-        else:
-            status = "Wrong"
-            color = "red"
-            
-        with st.expander(f"Q{i+1}: {status}", expanded=False):
-            st.markdown(f"**Question:** {q['question_text']}")
-            
-            # Visual Feedback on choices
-            col_ua, col_ca = st.columns(2)
-            with col_ua:
-                st.markdown(f"**Your Answer:** :{color}[{user_choice if user_choice else 'None'}]")
-            with col_ca:
-                st.markdown(f"**Correct Answer:** :green[{correct_choice}]")
-            
-            st.info(f"**Explanation:** {q['explanation']}")
-            
-    st.markdown("---")
-    
-    # Export PDF
-    # Use stored topic
-    pdf_topic = st.session_state.get("current_topic", topic if 'topic' in locals() else "UPSC Mock")
-    pdf_file = create_pdf(quiz_data, user_answers, pdf_topic, difficulty, score, max_score)
-    st.download_button(
-        label="📄 Download Results & Explanations (PDF)",
-        data=pdf_file,
-        file_name=f"upsc_results_{pdf_topic.replace(' ', '_')}.pdf",
-        mime="application/pdf"
-    )
-
-    def reset_quiz():
-        st.session_state.quiz_active = False
-        st.session_state.quiz_submitted = False
-        st.session_state.quiz_data = []
-        st.session_state.user_answers = {}
+# Results Display (keeps same) ... (omitted in replace, see StartLine context)
 
     st.button("Start New Quiz", on_click=reset_quiz)
+
+elif app_mode == "📜 Quiz History":
+    st.markdown("### 📜 Past Quiz Archive")
+    
+    if "history_manager" not in st.session_state:
+        from quiz_history_manager import QuizHistory
+        st.session_state.history_manager = QuizHistory()
+        
+    history = st.session_state.history_manager.load_history()
+    
+    if not history:
+        st.info("No quizzes taken yet. Generate one!")
+    else:
+        for q in history:
+            with st.expander(f"{q['timestamp']} | {q['topic']} | Score: {q['score']:.2f}/{q['max_score']}"):
+                st.markdown(f"**Score:** {q['score']:.2f} / {q['max_score']}")
+                
+                if st.button("🔄 Retake This Quiz", key=f"replay_{q['id']}"):
+                    # Load into session
+                    st.session_state.quiz_data = q['questions']
+                    st.session_state.current_topic = q['topic']
+                    st.session_state.quiz_active = True
+                    st.session_state.quiz_submitted = False
+                    st.session_state.user_answers = {}
+                    st.session_state.navigation = "Topic Practice" # Redirect
+                    st.rerun()
 
 elif app_mode == "📊 Syllabus Tracker":
     st.markdown("### 📊 Official Syllabus Tracker")
