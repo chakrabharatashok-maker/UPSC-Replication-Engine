@@ -361,19 +361,55 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
+from syllabus_data import UPSC_SYLLABUS
+
+# Page Config (already set)
+
+# -- Syllabus Helper --
+def get_syllabus_progress():
+    if "syllabus_tracker" not in st.session_state:
+        # Init structure
+        st.session_state.syllabus_tracker = {
+            subj: {topic: False for topic in topics} 
+            for subj, topics in UPSC_SYLLABUS.items()
+        }
+    
+    # Calculate
+    total_topics = 0
+    completed_topics = 0
+    for subj, topics in st.session_state.syllabus_tracker.items():
+        total_topics += len(topics)
+        completed_topics += sum(topics.values())
+        
+    return completed_topics, total_topics
+
 # Sidebar - Configuration
 st.sidebar.markdown("### Settings") # Minimal Header
-app_mode = st.sidebar.radio("Navigation", ["Topic Practice", "Full Mock Test", "📚 Knowledge Base"])
-
-api_key = st.sidebar.text_input("Gemini API Key", type="password")
-if not api_key:
-    api_key = os.getenv("GEMINI_API_KEY")
-
-model_name = st.sidebar.selectbox(
-    "AI Model",
-    options=["gemini-2.0-flash", "gemini-2.0-flash-lite", "gemini-flash-latest"],
-    index=0
+app_mode = st.sidebar.radio(
+    "Navigation", 
+    ["🏠 Home", "Topic Practice", "Full Mock Test", "📚 Knowledge Base", "📊 Syllabus Tracker"]
 )
+
+# Persistent Scratchpad
+st.sidebar.markdown("---")
+st.sidebar.markdown("### 📝 Quick Notes")
+st.sidebar.text_area("Jot down concepts...", height=200, key="scratchpad", help="These notes persist during your session.")
+
+# -- Configuration --
+# Load API Key from environment (Hidden from UI)
+from dotenv import load_dotenv
+load_dotenv()
+api_key = os.getenv("GEMINI_API_KEY")
+
+if not api_key:
+    st.sidebar.error("⚠️ API Key missing in .env")
+
+# Model Selection: Hardcoded to reliable models for Free Tier
+# 'gemini-2.0-flash' is available and efficiently supported.
+model_name = "gemini-2.0-flash" 
+
+# Hidden Debug Config (Optional, commented out)
+# model_name = st.sidebar.selectbox("Model", ["gemini-1.5-flash", "gemini-1.5-pro"], index=0)
 
 difficulty = st.sidebar.select_slider(
     "Complexity",
@@ -400,9 +436,44 @@ if api_key:
 st.title("UPSC Dream")
 st.markdown("---") # Minimal Divider
 
-col1, col2 = st.columns([1, 1])
+if app_mode == "🏠 Home":
+    st.markdown("### Welcome, Aspirant.")
+    st.markdown("What is your focus for today's session?")
+    
+    col_h1, col_h2, col_h3 = st.columns(3)
+    
+    with col_h1:
+        st.markdown("""
+        <div style="padding: 20px; background-color: #111827; border: 1px solid #1F2937; border-radius: 12px; height: 200px; text-align: center;">
+            <div style="font-size: 40px; margin-bottom: 10px;">🎯</div>
+            <h3 style="margin: 0; color: #F9FAFB;">Topic Drill</h3>
+            <p style="color: #9CA3AF; font-size: 14px;">Focused practice on specific chapters or themes.</p>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with col_h2:
+        st.markdown("""
+        <div style="padding: 20px; background-color: #111827; border: 1px solid #1F2937; border-radius: 12px; height: 200px; text-align: center;">
+            <div style="font-size: 40px; margin-bottom: 10px;">🛡️</div>
+            <h3 style="margin: 0; color: #F9FAFB;">Mock Test</h3>
+            <p style="color: #9CA3AF; font-size: 14px;">Full-length mixed subject simulation.</p>
+        </div>
+        """, unsafe_allow_html=True)
+        
+    with col_h3:
+        st.markdown("""
+        <div style="padding: 20px; background-color: #111827; border: 1px solid #1F2937; border-radius: 12px; height: 200px; text-align: center;">
+            <div style="font-size: 40px; margin-bottom: 10px;">📚</div>
+            <h3 style="margin: 0; color: #F9FAFB;">Library</h3>
+            <p style="color: #9CA3AF; font-size: 14px;">Study form your uploaded reference books.</p>
+        </div>
+        """, unsafe_allow_html=True)
 
-if app_mode == "Topic Practice":
+    st.info("👈 Select a mode from the sidebar to begin.")
+
+elif app_mode == "Topic Practice":
+    col1, col2 = st.columns([1, 1])
+    
     with col1:
         st.markdown("#### Source Material")
         uploaded_file = st.file_uploader("Upload Chapter (PDF)", type="pdf")
@@ -687,45 +758,87 @@ if "quiz_active" in st.session_state and st.session_state.quiz_active:
 
 # Results Display
 if "quiz_submitted" in st.session_state and st.session_state.quiz_submitted:
-    st.markdown("## 📊 Results")
+    st.markdown("## 📊 Performance Report")
+    
     quiz_data = st.session_state.quiz_data
     user_answers = st.session_state.user_answers
     
+    # Calculate Score First
     score = 0
     correct_count = 0
-    wrong_count = 0
     skipped_count = 0
+    for i, q in enumerate(quiz_data):
+        user_choice = user_answers.get(i)
+        if user_choice == q['correct_option']:
+            score += 2
+            correct_count += 1
+        elif user_choice is None:
+            skipped_count += 1
+        else:
+            score -= 0.66
+            
+    total_q = len(quiz_data)
+    max_score = total_q * 2
+    accuracy = (correct_count / total_q) * 100
     
+    # 1. Visual Scorecard
+    st.markdown("---")
+    metric_cols = st.columns([1, 1, 2])
+    
+    with metric_cols[0]:
+        st.metric("Net Score", f"{score:.2f} / {max_score}")
+    
+    with metric_cols[1]:
+        st.metric("Accuracy", f"{accuracy:.1f}%")
+        
+    with metric_cols[2]:
+        # Contextual Status
+        if accuracy >= 80:
+            status = "🌟 Outstanding (UPSC Ready)"
+            color = "green"
+        elif accuracy >= 50:
+            status = "📈 Good / On Track"
+            color = "orange"
+        else:
+            status = "⚠️ Needs Revision"
+            color = "red"
+        
+        st.markdown(f"**Status:**")
+        st.markdown(f"<h3 style='color: {color}; margin:0;'>{status}</h3>", unsafe_allow_html=True)
+        st.progress(min(max(accuracy / 100, 0), 1.0))
+        
+    st.toast(f"Quiz Submitted! Score: {score:.2f}", icon="✅")
+    st.markdown("---")
+    # 2. Detailed Breakdown
+    st.markdown("### 📝 Detailed Analysis")
     for i, q in enumerate(quiz_data):
         user_choice = user_answers.get(i)
         correct_choice = q['correct_option']
         
-        color = "black"
-        status = "Skipped"
-        
+        # Determine status for this specific question visual
         if not user_choice:
-            skipped_count += 1
+            status = "Skipped"
             color = "orange"
         elif user_choice == correct_choice:
-            score += 2
-            correct_count += 1
+            status = "Correct"
             color = "green"
-            status = "Correct (+2)"
         else:
-            score -= 0.66
-            wrong_count += 1
+            status = "Wrong"
             color = "red"
-            status = "Wrong (-0.66)"
             
         with st.expander(f"Q{i+1}: {status}", expanded=False):
             st.markdown(f"**Question:** {q['question_text']}")
-            st.markdown(f"**Your Answer:** :{color}[{user_choice if user_choice else 'None'}]")
-            st.markdown(f"**Correct Answer:** :green[{correct_choice}]")
-            st.markdown(f"**Explanation:** {q['explanation']}")
-    
-    max_score = len(quiz_data) * 2
-    st.markdown(f"### 🏆 Final Score: {score:.2f} / {max_score}")
-    st.markdown(f"✅ Correct: **{correct_count}** | ❌ Wrong: **{wrong_count}** | ⏭️ Skipped: **{skipped_count}**")
+            
+            # Visual Feedback on choices
+            col_ua, col_ca = st.columns(2)
+            with col_ua:
+                st.markdown(f"**Your Answer:** :{color}[{user_choice if user_choice else 'None'}]")
+            with col_ca:
+                st.markdown(f"**Correct Answer:** :green[{correct_choice}]")
+            
+            st.info(f"**Explanation:** {q['explanation']}")
+            
+    st.markdown("---")
     
     # Export PDF
     # Use stored topic
@@ -745,6 +858,31 @@ if "quiz_submitted" in st.session_state and st.session_state.quiz_submitted:
         st.session_state.user_answers = {}
 
     st.button("Start New Quiz", on_click=reset_quiz)
+
+elif app_mode == "📊 Syllabus Tracker":
+    st.markdown("### 📊 Official Syllabus Tracker")
+    st.markdown("Track your coverage of official UPSC Prelims topics. (Data persists in session)")
+    
+    # 1. Global Progress
+    done, total = get_syllabus_progress()
+    perc = (done / total) * 100 if total > 0 else 0
+    
+    st.markdown(f"#### Overall Coverage: **{perc:.1f}%** ({done}/{total} Topics)")
+    st.progress(perc / 100)
+    st.markdown("---")
+    
+    # 2. Checklist per Subject
+    for subj, topics in UPSC_SYLLABUS.items():
+        # Get progress for this subject
+        s_done = sum(st.session_state.syllabus_tracker[subj].values())
+        s_total = len(topics)
+        
+        with st.expander(f"{subj} ({s_done}/{s_total})"):
+            for t in topics:
+                # Checkbox modifies state directly
+                is_checked = st.session_state.syllabus_tracker[subj].get(t, False)
+                new_val = st.checkbox(t, value=is_checked, key=f"{subj}_{t}")
+                st.session_state.syllabus_tracker[subj][t] = new_val
 
 st.markdown("---")
 st.markdown("*Note: This system relies on AI and may hallucinate. Verify with standard books.*")
