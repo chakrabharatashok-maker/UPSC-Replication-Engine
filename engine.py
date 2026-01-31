@@ -127,8 +127,8 @@ class ExamEngine:
 
     def _call_with_retry(self, func, *args, **kwargs):
         """Exponential backoff retry wrapper for API calls."""
-        max_retries = 3
-        base_delay = 2
+        max_retries = 5
+        base_delay = 5
         
         for attempt in range(max_retries + 1):
             try:
@@ -138,11 +138,13 @@ class ExamEngine:
                 if "429" in error_str or "resource exhausted" in error_str:
                     if attempt < max_retries:
                         sleep_time = (base_delay * (2 ** attempt)) + random.uniform(0, 1)
+                        # Cap at 60s wait
+                        sleep_time = min(sleep_time, 60)
                         print(f"⚠️ Rate limit hit. Retrying in {sleep_time:.2f}s... (Attempt {attempt+1}/{max_retries})")
                         time.sleep(sleep_time)
                         continue
                     else:
-                        raise Exception("Rate limit exceeded after multiple retries. Please wait 1-2 minutes.")
+                        raise Exception("Rate limit exceeded. The model is too busy. Please wait 2 minutes.")
                 else:
                     # Non-retryable error
                     raise e
@@ -281,6 +283,10 @@ class ExamEngine:
                 # If rate limit, we strictly stop
                 if "Rate limit" in response["error"]:
                      return response
+            
+            # Rate Limit Safety Valve: Sleep 5s between subjects to stay under 15 RPM
+            # 8 subjects * 5s = 40s total gen time, but safe.
+            time.sleep(5)
         
         if not all_questions:
             return {"error": "Failed to generate any questions.\nDetails:\n" + "\n".join(errors)}
