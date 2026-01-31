@@ -1,0 +1,9 @@
+.env
+.venv/
+__pycache__/
+library/
+.streamlit/
+*.pdf
+dist/
+build/
+*.spec
