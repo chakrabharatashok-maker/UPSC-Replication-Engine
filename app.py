@@ -22,9 +22,20 @@ def get_available_models(api_key):
             if 'generateContent' in m.supported_generation_methods:
                 if 'gemini' in m.name.lower():
                     models.append(m.name)
-        # Sort to put latest version likely at top (lexicographical usually works for 1.5 vs 1.0 but 2.0 works too)
-        # Detailed sort: Put 2.0 first, then 1.5, then others.
-        models.sort(reverse=True) 
+        
+        # Reliability Sort: 1.5 Flash (Most Reliable) > 2.0 Flash (Newer) > Pro > Experimental
+        def model_sorter(name):
+            val = 0
+            n = name.lower()
+            if "1.5" in n and "flash" in n: val += 120 # Gold Standard for Free Tier
+            elif "2.0" in n and "flash" in n: val += 110 # Silver
+            elif "flash" in n: val += 100 # Bronze
+            elif "1.5" in n and "pro" in n: val += 50
+            elif "pro" in n: val += 40
+            if "latest" in n: val += 5
+            return val
+
+        models.sort(key=model_sorter, reverse=True)
         return models
     except Exception:
         return []
@@ -443,10 +454,10 @@ with st.sidebar.expander("⚙️ Advanced Config"):
     
     # 2. Fallback if fetch fails or returns empty
     default_models = [
-        "gemini-flash-latest", 
-        "gemini-2.0-flash", 
-        "gemini-1.5-flash", 
-        "gemini-1.5-pro", 
+        "gemini-1.5-flash",      # Most Reliable Free Tier
+        "gemini-2.0-flash",      # Powerful & fast
+        "gemini-flash-latest",   # Alias
+        "gemini-1.5-pro",        # High IQ (Low Rate Limit)
         "gemini-pro-latest"
     ]
     
@@ -455,7 +466,7 @@ with st.sidebar.expander("⚙️ Advanced Config"):
         # Use set logic to avoid dupes but keep order? No, simpler:
         final_list = fetched_models
         # Add aliases manually if not present, as API usually returns specific versions
-        if "gemini-flash-latest" not in final_list: final_list.insert(0, "gemini-flash-latest")
+        if "gemini-1.5-flash" not in final_list: final_list.insert(0, "gemini-1.5-flash")
     else:
         final_list = default_models
 
