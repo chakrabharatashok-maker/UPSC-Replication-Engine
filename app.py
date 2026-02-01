@@ -96,6 +96,16 @@ def render_login_page():
                     CLIENT_ID = secrets_section.get("client_id")
                     CLIENT_SECRET = secrets_section.get("client_secret")
                     REDIRECT_URI = secrets_section.get("redirect_uri", REDIRECT_URI)
+                    
+                # Developer Warning: Production Redirect on Localhost
+                # If we are on localhost but using a .streamlit.app redirect, Google will send the user away.
+                # Heuristic: If default Streamlit port is open and Redirect is https
+                if "localhost" in os.environ.get("STREAMLIT_SERVER_ADDRESS", "") or "localhost" in REDIRECT_URI:
+                     pass 
+                elif "streamlit.app" in REDIRECT_URI and st.session_state.get("is_dev_checked", False) is False:
+                     # We can't easily detect localhost URL from Python side robustly in all envs,
+                     # but we can warn the user if they see the login page again.
+                     pass 
             except Exception:
                 pass # Secrets file missing, fallback to simulation
             
@@ -123,9 +133,13 @@ def render_login_page():
                         st.session_state.authenticated = True
                         email_data = result.get("token", {}).get("id_token_claims", {}).get("email", "Google User")
                         st.balloons()
-                        st.toast(f"Verified Google Login: {email_data}", icon="✅")
+                        st.toast(f"Login Successful: {email_data}", icon="✅")
                         st.session_state.auth_method = "google_real"
                         st.rerun()
+                
+                # Debug Help for "Loop" issue
+                if "code" in st.query_params and not st.session_state.authenticated:
+                     st.info("🔄 Processing Login... (If stuck, check Redirect URI matches your browser URL)")
             else:
                 # -- SIMULATION FLOW (Fallback) --
                 if st.button("🔴  Sign in with Google", use_container_width=True):
