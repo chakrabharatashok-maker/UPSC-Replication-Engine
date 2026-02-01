@@ -81,11 +81,21 @@ def render_login_page():
             # Google Auth "Link" Logic (Hybrid: Real vs Simulation)
             CLIENT_ID = None
             CLIENT_SECRET = None
+            REDIRECT_URI = "http://localhost:8501"
+            
             try:
                 # Accessing st.secrets raises error if file missing
-                if "google" in st.secrets:
-                    CLIENT_ID = st.secrets["google"].get("client_id")
-                    CLIENT_SECRET = st.secrets["google"].get("client_secret")
+                # Priority: Check [auth] section (User provided), fallback to [google]
+                secrets_section = None
+                if "auth" in st.secrets:
+                    secrets_section = st.secrets["auth"]
+                elif "google" in st.secrets:
+                    secrets_section = st.secrets["google"]
+                
+                if secrets_section:
+                    CLIENT_ID = secrets_section.get("client_id")
+                    CLIENT_SECRET = secrets_section.get("client_secret")
+                    REDIRECT_URI = secrets_section.get("redirect_uri", REDIRECT_URI)
             except Exception:
                 pass # Secrets file missing, fallback to simulation
             
@@ -100,7 +110,7 @@ def render_login_page():
                 result = oauth2.authorize_button(
                     name="Sign in with Google",
                     icon="https://www.google.com.tw/favicon.ico",
-                    redirect_uri="http://localhost:8501", # Note: User might need to change this for deploys
+                    redirect_uri=REDIRECT_URI, 
                     scope="openid email profile",
                     key="google_auth",
                     extras_params={"prompt": "select_account"},
