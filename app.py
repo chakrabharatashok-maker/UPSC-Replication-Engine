@@ -135,6 +135,9 @@ def render_login_page():
                         st.balloons()
                         st.toast(f"Login Successful: {email_data}", icon="✅")
                         st.session_state.auth_method = "google_real"
+                        
+                        # Fix Login Loop: Clear parameters so we don't re-trigger OAuth logic
+                        st.query_params.clear()
                         st.rerun()
                 
                 # Debug Help for "Loop" issue
