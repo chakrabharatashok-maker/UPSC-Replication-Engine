@@ -131,27 +131,25 @@ def render_login_page():
                 if st.button("🔴  Sign in with Google", use_container_width=True):
                     st.session_state.auth_method = "google"
                 
+            # LOGIC: Only show email stats if "Simulation Mode" was triggered
             if st.session_state.get("auth_method") == "google":
                 st.info("ℹ️ Enter your **Gmail** address to verify identity.")
-            
-            st.markdown("""<div style='text-align: center; color: #6B7280; font-size: 12px; margin: 10px 0;'>ACCOUNT VERIFICATION</div>""", unsafe_allow_html=True)
-            
-            email = st.text_input("Email Address", placeholder="name@gmail.com", label_visibility="collapsed")
-            
-            if st.button("Continue ➔", type="primary", use_container_width=True):
-                if "@" in email and "." in email:
-                    # Logic: If it's a Gmail, we treat it as a Google Auth session
-                    if "gmail.com" in email.lower() or st.session_state.get("auth_method") == "google":
-                        st.session_state.authenticated = True
-                        st.balloons()
-                        st.toast(f"Authenticated via Google: {email}", icon="✅")
-                        st.rerun()
+                st.markdown("""<div style='text-align: center; color: #6B7280; font-size: 12px; margin: 10px 0;'>ACCOUNT VERIFICATION</div>""", unsafe_allow_html=True)
+                
+                email = st.text_input("Email Address", placeholder="name@gmail.com", label_visibility="collapsed")
+                
+                if st.button("Continue ➔", type="primary", use_container_width=True):
+                    if "@" in email and "." in email:
+                        # Logic: If it's a Gmail, we treat it as a Google Auth session
+                        if "gmail.com" in email.lower():
+                            st.session_state.authenticated = True
+                            st.balloons()
+                            st.toast(f"Authenticated via Google: {email}", icon="✅")
+                            st.rerun()
+                        else:
+                            st.warning("⚠️ Access Restricted: Please sign in with a valid @gmail.com account.")
                     else:
-                        st.session_state.authenticated = True
-                        st.toast(f"Welcome, {email.split('@')[0]}!", icon="🚀")
-                        st.rerun()
-                else:
-                    st.warning("Please enter a valid email address.")
+                        st.warning("Please enter a valid email address.")
 
         st.markdown("""<div style='text-align: center; color: #9CA3AF; font-size: 12px; margin-top: 20px;'>
         By continuing, you link your email to your Agent AI Profile.<br>
