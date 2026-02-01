@@ -79,8 +79,15 @@ def render_login_page():
             st.markdown("#### Access Your Account")
             
             # Google Auth "Link" Logic (Hybrid: Real vs Simulation)
-            CLIENT_ID = st.secrets.get("google", {}).get("client_id")
-            CLIENT_SECRET = st.secrets.get("google", {}).get("client_secret")
+            CLIENT_ID = None
+            CLIENT_SECRET = None
+            try:
+                # Accessing st.secrets raises error if file missing
+                if "google" in st.secrets:
+                    CLIENT_ID = st.secrets["google"].get("client_id")
+                    CLIENT_SECRET = st.secrets["google"].get("client_secret")
+            except Exception:
+                pass # Secrets file missing, fallback to simulation
             
             if HAS_OAUTH and CLIENT_ID and CLIENT_SECRET:
                 # -- REAL OAUTH FLOW --
@@ -533,8 +540,11 @@ from dotenv import load_dotenv
 load_dotenv()
 api_key = os.getenv("GEMINI_API_KEY")
 
-if not api_key and "GEMINI_API_KEY" in st.secrets:
-    api_key = st.secrets["GEMINI_API_KEY"]
+try:
+    if not api_key and st.secrets and "GEMINI_API_KEY" in st.secrets:
+        api_key = st.secrets["GEMINI_API_KEY"]
+except Exception:
+    pass # Secrets not found
 
 if not api_key:
     st.sidebar.error("⚠️ API Key missing in .env")
